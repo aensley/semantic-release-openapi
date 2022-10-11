@@ -4,6 +4,8 @@ import PluginConfig from './types'
 
 /**
  * verifyConditions hook for semantic release
+ *
+ * @throws {SemanticReleaseError}
  */
 export default async ({ apiSpecFiles }: PluginConfig): Promise<any> => {
   if (apiSpecFiles.length < 1) {

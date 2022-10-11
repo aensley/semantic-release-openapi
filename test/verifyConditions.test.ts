@@ -3,11 +3,9 @@
  */
 
 import SemanticReleaseError from '@semantic-release/error'
-import fs from 'fs'
 import verifyConditons from '../src/verifyConditions'
 import glob from 'glob'
 
-jest.mock('fs')
 jest.mock('glob')
 
 describe('verifyConditions', () => {

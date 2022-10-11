@@ -12,7 +12,7 @@ import glob from 'glob'
  * @param {string}            version      The version string to write to the files
  * @param {Context['logger']} logger       The semantic release logger instance
  *
- * @throws SemanticReleaseError
+ * @throws {SemanticReleaseError}
  */
 const prepareApiSpecFiles = (apiSpecFiles: string[], version: string, logger: Context['logger']): any => {
   try {
@@ -38,52 +38,42 @@ const prepareApiSpecFiles = (apiSpecFiles: string[], version: string, logger: Co
 /**
  * Prepares a single API spec file in YAML format
  *
- * @param apiSpecFile Single spec file to update, no globs
- * @param version     The version string to write to the file
- *
- * @throws SemanticReleaseError
+ * @param {string} apiSpecFile Single spec file to update, no globs
+ * @param {string} version     The version string to write to the file
  *
  * @returns {string[]} A list of altered files
  */
 const prepareApiSpecFileYml = (apiSpecFile: string, version: string): string[] => {
-  try {
-    const changedFiles = replace
-      .sync({
-        files: apiSpecFile,
-        from: /version: ?.+$/im,
-        to: 'version: ' + version
-      })
-      .filter((result) => result.hasChanged)
-      .map((result) => result.file)
-    return changedFiles
-  } catch (error) {
-    throw new SemanticReleaseError(error)
-  }
+  const changedFiles = replace
+    .sync({
+      files: apiSpecFile,
+      from: /version: ?.+$/im,
+      to: 'version: ' + version
+    })
+    .filter((result) => result.hasChanged)
+    .map((result) => result.file)
+  return changedFiles
 }
 
 /**
  * Prepares a single API spec file in JSON format
  *
- * @param apiSpecFile Single spec file to update, no globs
- * @param version The version sring to write to the file
- *
- * @throws SemanticReleaseError
+ * @param {string} apiSpecFile Single spec file to update, no globs
+ * @param {string} version     The version string to write to the file
  *
  * @returns {string[]} A list of altered files
  */
 const prepareApiSpecFileJson = (apiSpecFile: string, version: string): string[] => {
-  try {
-    const specFile = readJsonSync(apiSpecFile)
-    specFile.info.version = version
-    writeJsonSync(apiSpecFile, specFile, { spaces: 2 })
-    return [apiSpecFile]
-  } catch (error) {
-    throw new SemanticReleaseError(error)
-  }
+  const specFile = readJsonSync(apiSpecFile)
+  specFile.info.version = version
+  writeJsonSync(apiSpecFile, specFile, { spaces: 2 })
+  return [apiSpecFile]
 }
 
 /**
  * prepare hook for semantic release
+ *
+ * @throws {SemanticReleaseError}
  */
 export default ({ apiSpecFiles }: PluginConfig, { nextRelease, logger }: Context): any => {
   const version = nextRelease?.version ?? ''

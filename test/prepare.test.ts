@@ -2,13 +2,13 @@
  * Test prepare
  */
 
+import SemanticReleaseError from '@semantic-release/error'
 import { readJsonSync, writeJsonSync } from 'fs-extra'
 import replace from 'replace-in-file'
 import type { Context } from 'semantic-release'
 import prepare from '../src/prepare'
 import glob from 'glob'
 
-jest.mock('fs')
 jest.mock('fs-extra')
 jest.mock('replace-in-file')
 jest.mock('glob')
@@ -28,6 +28,9 @@ const createContext = ({ version = '1.2.3' } = {}) =>
     cwd: '/path/to/cwd'
   } as unknown as Context)
 
+const jsonFilePath = 'test/data/openapi.json'
+const yamlFilePath = 'test/data/openapi.yaml'
+
 describe('prepare', () => {
   beforeEach(() => {
     // Always pretend every file given exists.
@@ -36,9 +39,29 @@ describe('prepare', () => {
     })
   })
 
-  describe('openapi.json', () => {
-    const jsonFilePath = 'test/data/openapi.json'
+  describe('should error', () => {
+    it('if there is no version', async () => {
+      const context = createContext({ version: '' }) // empty version
+      expect.assertions(1) // Fail if there is no error caught.
+      try {
+        await prepare({ apiSpecFiles: [yamlFilePath] }, context)
+      } catch (e) {
+        expect(e).toEqual(new SemanticReleaseError('Could not determine the version from semantic release.'))
+      }
+    })
 
+    it('if there are no paths provided', async () => {
+      const context = createContext()
+      expect.assertions(1) // Fail if there is no error caught.
+      try {
+        await prepare({ apiSpecFiles: [''] }, context)
+      } catch (e) {
+        expect(e).toBeInstanceOf(SemanticReleaseError)
+      }
+    })
+  })
+
+  describe('openapi.json', () => {
     beforeEach(() => {
       ;(readJsonSync as jest.Mock).mockReturnValue({ info: { version: '1.2.2' } })
       ;(writeJsonSync as jest.Mock).mockReturnValue(true)
@@ -57,8 +80,6 @@ describe('prepare', () => {
   })
 
   describe('openapi.yaml', () => {
-    const yamlFilePath = 'test/data/openapi.yaml'
-
     beforeEach(() => {
       ;(replace.sync as jest.Mock).mockReturnValue([
         {
