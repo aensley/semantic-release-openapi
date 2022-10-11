@@ -5,35 +5,29 @@ import { Context } from 'semantic-release'
 import PluginConfig from './types'
 import glob from 'glob'
 
-const prepareApiSpecFilesYml = (apiSpecFiles: string[], version: string, logger: Context['logger']): any => {
-  try {
-    apiSpecFiles.forEach((fileName: string) => {
-      const changedFiles = replace
-        .sync({
-          files: fileName,
-          from: /version: ?.+$/im,
-          to: 'version: ' + version
-        })
-        .filter((result) => result.hasChanged)
-        .map((result) => result.file)
-      changedFiles.forEach((changedFile: string) => {
-        logger.log('Wrote version %s to %s', version, changedFile)
-      })
-    })
-  } catch (error) {
-    throw new SemanticReleaseError(error)
-  }
-}
-
-const prepareApiSpecFilesJson = (apiSpecFiles: string[], version: string, logger: Context['logger']): any => {
+/**
+ * Prepare the API Spec files
+ *
+ * @param {string[]}          apiSpecFiles List of api spec file paths, globs supported
+ * @param {string}            version      The version string to write to the files
+ * @param {Context['logger']} logger       The semantic release logger instance
+ *
+ * @throws SemanticReleaseError
+ */
+const prepareApiSpecFiles = (apiSpecFiles: string[], version: string, logger: Context['logger']): any => {
   try {
     apiSpecFiles.forEach((fileNameGlob: string) => {
       const fileNames: string[] = glob.sync(fileNameGlob)
       fileNames.forEach((fileName: string) => {
-        const specFile = readJsonSync(fileName)
-        specFile.info.version = version
-        writeJsonSync(fileName, specFile, { spaces: 2 })
-        logger.log('Wrote version %s to %s', version, fileName)
+        let results: string[]
+        if (fileName.split('.').pop() === 'json') {
+          results = prepareApiSpecFileJson(fileName, version)
+        } else {
+          results = prepareApiSpecFileYml(fileName, version)
+        }
+        results.forEach((resultFileName: string) => {
+          logger.log('Wrote version %s to %s', version, resultFileName)
+        })
       })
     })
   } catch (error) {
@@ -41,19 +35,61 @@ const prepareApiSpecFilesJson = (apiSpecFiles: string[], version: string, logger
   }
 }
 
-export default ({ apiSpecFiles, apiSpecType }: PluginConfig, { nextRelease, logger }: Context): any => {
+/**
+ * Prepares a single API spec file in YAML format
+ *
+ * @param apiSpecFile Single spec file to update, no globs
+ * @param version     The version string to write to the file
+ *
+ * @throws SemanticReleaseError
+ *
+ * @returns {string[]} A list of altered files
+ */
+const prepareApiSpecFileYml = (apiSpecFile: string, version: string): string[] => {
+  try {
+    const changedFiles = replace
+      .sync({
+        files: apiSpecFile,
+        from: /version: ?.+$/im,
+        to: 'version: ' + version
+      })
+      .filter((result) => result.hasChanged)
+      .map((result) => result.file)
+    return changedFiles
+  } catch (error) {
+    throw new SemanticReleaseError(error)
+  }
+}
+
+/**
+ * Prepares a single API spec file in JSON format
+ *
+ * @param apiSpecFile Single spec file to update, no globs
+ * @param version The version sring to write to the file
+ *
+ * @throws SemanticReleaseError
+ *
+ * @returns {string[]} A list of altered files
+ */
+const prepareApiSpecFileJson = (apiSpecFile: string, version: string): string[] => {
+  try {
+    const specFile = readJsonSync(apiSpecFile)
+    specFile.info.version = version
+    writeJsonSync(apiSpecFile, specFile, { spaces: 2 })
+    return [apiSpecFile]
+  } catch (error) {
+    throw new SemanticReleaseError(error)
+  }
+}
+
+/**
+ * prepare hook for semantic release
+ */
+export default ({ apiSpecFiles }: PluginConfig, { nextRelease, logger }: Context): any => {
   const version = nextRelease?.version ?? ''
   if (version.length < 1) {
     throw new SemanticReleaseError('Could not determine the version from semantic release.')
   }
 
-  switch (apiSpecType?.toLowerCase()) {
-    case 'json':
-      prepareApiSpecFilesJson(apiSpecFiles, version, logger)
-      break
-    case 'yaml':
-    case 'yml':
-    default:
-      prepareApiSpecFilesYml(apiSpecFiles, version, logger)
-  }
+  prepareApiSpecFiles(apiSpecFiles, version, logger)
 }

@@ -16,59 +16,28 @@ npm install --save-dev @aensley/semantic-release-openapi
 
 This plugin has two configuration options available.
 
-- `apiSpecFiles` (**REQUIRED**): An array of OpenAPI specification file paths. Glob patterns (e.g. `'*.yaml'`) are supported.
-- `apiSpecType`: The filetype of the OpenAPI spec files. Must be either `'json'` or `'yaml'`. Defaults to `'yaml'`. _All apiSpecFiles must be of the same filetype_.
+- `apiSpecFiles` (**REQUIRED**): An array of OpenAPI specification file paths. Glob patterns (e.g. `'*.yaml'`) are supported. All matching files must have a `.json`, `.yaml`, or `.yml` extension.
 
 ### Committing Changes
 
 **IMPORTANT**: Semantic Release will not commit changes to your OpenAPI spec files unless you add the same files in `assets` for the **@semantic-release/git** plugin! See below for examples.
 
-### Examples
-
-#### YAML
-
-If your OpenAPI specification files are in YAML format, you do not have to specify the `apiSpecType`.
+### Example
 
 ```json
 {
   "release": {
     "plugins": [
       [
-        "semantic-release-openapi",
+        "@aensley/semantic-release-openapi",
         {
-          "apiSpecFiles": ["openapi.yaml", "src/swagger-*.yaml"]
+          "apiSpecFiles": ["openapi.yaml", "src/swagger-*.json"]
         }
       ],
       [
         "@semantic-release/git",
         {
-          "assets": ["package.json", "openapi.yaml", "src/swagger-*.yaml"]
-        }
-      ]
-    ]
-  }
-}
-```
-
-#### JSON
-
-If your OpenAPI specification files are in JSON format, you **must** specify `apiSpecType` of `'json'`.
-
-```json
-{
-  "release": {
-    "plugins": [
-      [
-        "semantic-release-openapi",
-        {
-          "apiSpecFiles": ["openapi.json"],
-          "apiSpecType": "json"
-        }
-      ],
-      [
-        "@semantic-release/git",
-        {
-          "assets": ["package.json", "openapi.json"]
+          "assets": ["package.json", "openapi.yaml", "src/swagger-*.json"]
         }
       ]
     ]
