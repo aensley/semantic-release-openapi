@@ -1,6 +1,6 @@
 {
   "name": "@aensley/semantic-release-openapi",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A Semantic Release plugin to update versions in OpenAPI specifications",
   "main": "src/index.ts",
   "repository": {
