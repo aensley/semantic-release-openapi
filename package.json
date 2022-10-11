@@ -88,9 +88,6 @@
       ]
     ]
   },
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
-  },
   "eslintConfig": {
     "extends": "standard-with-typescript",
     "parserOptions": {
