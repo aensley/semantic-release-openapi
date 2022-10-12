@@ -1,5 +1,14 @@
 # semantic-release-openapi
 
+[![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg?style=flat)](https://standardjs.com)
+[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat)](https://prettier.io)
+![npm bundle size (scoped)](https://img.shields.io/bundlephobia/min/@aensley/semantic-release-openapi)
+![npm (scoped)](https://img.shields.io/npm/v/@aensley/semantic-release-openapi)
+
+[![Maintainability](https://api.codeclimate.com/v1/badges/ac7dbc9a2d5e0bf8bd7d/maintainability)](https://codeclimate.com/github/aensley/semantic-release-openapi/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/ac7dbc9a2d5e0bf8bd7d/test_coverage)](https://codeclimate.com/github/aensley/semantic-release-openapi/test_coverage)
+[![Unit testing status](https://img.shields.io/github/workflow/status/aensley/semantic-release-openapi/ci/main?label=ci)](https://github.com/aensley/semantic-release-openapi/actions/workflows/ci.yml?query=branch%3Amain)
+
 A Semantic Release plugin to update versions in OpenAPI specifications.
 
 ## Installation
@@ -14,7 +23,7 @@ npm install --save-dev @aensley/semantic-release-openapi
 
 ### Plugin Config
 
-This plugin has two configuration options available.
+This plugin has one configuration option which must be supplied.
 
 - `apiSpecFiles` (**REQUIRED**): An array of OpenAPI specification file paths. Glob patterns (e.g. `'*.yaml'`) are supported. All matching files must have a `.json`, `.yaml`, or `.yml` extension.
 
