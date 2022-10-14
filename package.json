@@ -56,7 +56,6 @@
     "node": ">=16"
   },
   "platform": "node",
-  "type": "module",
   "dependencies": {
     "@semantic-release/error": "^3.0.0",
     "fs-extra": "^10.1.0",
