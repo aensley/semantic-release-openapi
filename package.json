@@ -21,7 +21,7 @@
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/aensley/semantic-release-openapi/issues"
+    "url": "https://github.com/aensley/semantic-release-openapi/issues/new?assignees=aensley&labels=bug%2Ctriage&template=bug-report.yml&title=%5BBug%5D%3A+"
   },
   "funding": [
     "https://github.com/sponsors/aensley",
