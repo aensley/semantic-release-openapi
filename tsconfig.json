@@ -1,11 +1,22 @@
 {
   "compilerOptions": {
-    "target": "ES2020",
-    "module": "ES2020",
-    "lib": ["ES2020"],
+    "target": "ESNext",
+    "module": "CommonJS",
+    "lib": ["ESNext"],
+    "declaration": true,
+    "sourceMap": true,
+    "strict": true,
     "esModuleInterop": true,
     "strictNullChecks": true,
     "moduleResolution": "node",
-    "types": ["node", "@types/jest"]
-  }
+    "typeRoots": ["./node_modules/@types", "./src/@types"],
+    "types": ["node", "@types/jest"],
+    "outDir": "dist",
+    "rootDir": "./src",
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true
+  },
+  "include": ["./src/**/*"],
+  "exclude": ["./node_modules/**/*", "./dist/**/*", "./test/**/*"]
 }

@@ -2,7 +2,7 @@ import SemanticReleaseError from '@semantic-release/error'
 import { readJsonSync, writeJsonSync } from 'fs-extra'
 import replace from 'replace-in-file'
 import { Context } from 'semantic-release'
-import PluginConfig from './types'
+import PluginConfig from './@types/pluginConfig'
 import glob from 'glob'
 
 /**
@@ -30,7 +30,7 @@ const prepareApiSpecFiles = (apiSpecFiles: string[], version: string, logger: Co
         })
       })
     })
-  } catch (error) {
+  } catch (error: any) {
     throw new SemanticReleaseError(error)
   }
 }

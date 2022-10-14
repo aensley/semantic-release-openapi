@@ -2,7 +2,6 @@
   "name": "@aensley/semantic-release-openapi",
   "version": "1.0.2",
   "description": "A Semantic Release plugin to update versions in OpenAPI specifications",
-  "main": "src/index.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/aensley/semantic-release-openapi.git"
@@ -29,8 +28,21 @@
     "https://paypal.me/AndrewEnsley"
   ],
   "homepage": "https://github.com/aensley/semantic-release-openapi#readme",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "source": "src/index.ts",
+  "files": [
+    "dist/**/*",
+    "src/**/*",
+    "tsconfig.json",
+    "README.md",
+    "package.json"
+  ],
   "scripts": {
     "precommit-msg": "echo Running pre-commit checks...",
+    "build": "tsc --build",
+    "clean": "tsc --build --clean",
     "format": "prettier --write .",
     "test": "ts-standard && prettier --check . && jest --coverage --verbose",
     "setup": "npm install && npm run prepare-hook",

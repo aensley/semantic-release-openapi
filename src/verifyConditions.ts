@@ -1,6 +1,6 @@
 import SemanticReleaseError from '@semantic-release/error'
 import glob from 'glob'
-import PluginConfig from './types'
+import PluginConfig from './@types/pluginConfig'
 
 /**
  * verifyConditions hook for semantic release
