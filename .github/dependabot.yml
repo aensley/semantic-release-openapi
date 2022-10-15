@@ -14,7 +14,7 @@ updates:
     assignees:
       - "aensley"
     commit-message:
-      prefix: "fix(dependencies): "
+      prefix: "fix(build): "
     labels:
       - "npm"
       - "dependencies"
