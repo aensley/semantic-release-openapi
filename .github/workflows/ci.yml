@@ -26,7 +26,7 @@ jobs:
       - name: Report Coverage
         if: ${{ matrix.node-version == 18 }}
         run: |
-          curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+          curl -s https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
           chmod +x ./cc-test-reporter
           ./cc-test-reporter after-build --coverage-input-type lcov ./coverage/lcov.info
         env:
