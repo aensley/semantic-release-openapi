@@ -25,8 +25,9 @@ jobs:
         run: npm test
       - name: Report Coverage
         if: ${{ matrix.node-version == 18 }}
-        uses: paambaati/codeclimate-action@v3.2.0
+        run: |
+          curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+          chmod +x ./cc-test-reporter
+          ./cc-test-reporter after-build --input-type lcov ./coverage/lcov.info
         env:
           CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
-        with:
-          coverageLocations: ${{github.workspace}}/coverage/lcov.info:lcov
