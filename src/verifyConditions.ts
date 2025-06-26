@@ -1,4 +1,3 @@
-import SemanticReleaseError from '@semantic-release/error'
 import glob from 'glob'
 import PluginConfig from './@types/pluginConfig'
 
@@ -7,18 +6,18 @@ import PluginConfig from './@types/pluginConfig'
  *
  * @throws {SemanticReleaseError}
  */
-export default async ({ apiSpecFiles }: PluginConfig): Promise<any> => {
+export default async function ({ apiSpecFiles }: PluginConfig): Promise<any> {
+  const SemanticReleaseError = (await import('@semantic-release/error')).default
   if (apiSpecFiles.length < 1) {
     throw new SemanticReleaseError(
       'Option "apiSpecFiles" was not included in the plugin config. See the README for instructions.',
       'ENOAPISPECFILES'
     )
   }
-
   const expectedExts: string[] = ['json', 'yaml', 'yml']
   let specFilesFound: boolean = false
   apiSpecFiles.forEach((fileNameGlob: string) => {
-    const fileNames: string[] = glob.sync(fileNameGlob)
+    const fileNames: string[] = (glob as any).sync(fileNameGlob)
     if (fileNames.length > 0) {
       specFilesFound = true
       fileNames.forEach((fileName: string) => {
@@ -31,7 +30,6 @@ export default async ({ apiSpecFiles }: PluginConfig): Promise<any> => {
       })
     }
   })
-
   if (!specFilesFound) {
     throw new SemanticReleaseError(
       'No files match the paths in "apiSpecFiles". Check your plugin config and try again.',

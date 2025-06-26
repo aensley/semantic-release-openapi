@@ -2,16 +2,32 @@
  * Test prepare
  */
 
+// Mock @semantic-release/error to avoid ESM import issues in Jest
+jest.mock('@semantic-release/error', () => {
+  return {
+    __esModule: true,
+    default: class SemanticReleaseError extends Error {
+      constructor(message: string) {
+        super(message)
+        this.name = 'SemanticReleaseError'
+      }
+    }
+  }
+})
+
+// Mock glob to provide a sync function for tests
+jest.mock('glob', () => ({
+  __esModule: true,
+  default: { sync: jest.fn() },
+  sync: jest.fn()
+}))
+
 import SemanticReleaseError from '@semantic-release/error'
 import { readJsonSync, writeJsonSync } from 'fs-extra'
-import replace from 'replace-in-file'
-import type { Context } from 'semantic-release'
 import prepare from '../src/prepare'
 import glob from 'glob'
 
 jest.mock('fs-extra')
-jest.mock('replace-in-file')
-jest.mock('glob')
 
 const logger = {
   log: jest.fn(),
@@ -19,22 +35,30 @@ const logger = {
   success: jest.fn(),
   warn: jest.fn(),
   error: jest.fn()
-} as unknown as Context['logger']
+} as any
 
 const createContext = ({ version = '1.2.3' } = {}) =>
   ({
     nextRelease: { version },
     logger,
     cwd: '/path/to/cwd'
-  } as unknown as Context)
+  }) as any
 
 const jsonFilePath = 'test/data/openapi.json'
 const yamlFilePath = 'test/data/openapi.yaml'
 
+const replaceSyncMock = jest.fn()
+jest.mock('../src/getReplaceInFile', () => ({
+  __esModule: true,
+  default: async () => ({
+    sync: replaceSyncMock
+  })
+}))
+
 describe('prepare', () => {
   beforeEach(() => {
     // Always pretend every file given exists.
-    ;(glob.sync as jest.Mock).mockImplementation((value: string) => {
+    ;(glob.sync as unknown as jest.Mock).mockImplementation((value: string) => {
       return [value]
     })
   })
@@ -81,7 +105,8 @@ describe('prepare', () => {
 
   describe('openapi.yaml', () => {
     beforeEach(() => {
-      ;(replace.sync as jest.Mock).mockReturnValue([
+      replaceSyncMock.mockReset()
+      replaceSyncMock.mockReturnValue([
         {
           file: yamlFilePath,
           hasChanged: true,
@@ -91,14 +116,11 @@ describe('prepare', () => {
       ])
       ;(writeJsonSync as jest.Mock).mockReturnValue(true)
     })
-
     it('updates the version', async () => {
       const context = createContext()
-
       await prepare({ apiSpecFiles: [yamlFilePath] }, context)
-
-      expect(replace.sync).toHaveBeenCalledTimes(1)
-      expect(replace.sync).toHaveBeenCalledWith({
+      expect(replaceSyncMock).toHaveBeenCalledTimes(1)
+      expect(replaceSyncMock).toHaveBeenCalledWith({
         files: yamlFilePath,
         from: /version: ?.+$/im,
         to: 'version: 1.2.3'

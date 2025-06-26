@@ -10,13 +10,13 @@
     "strictNullChecks": true,
     "moduleResolution": "node",
     "typeRoots": ["./node_modules/@types", "./src/@types"],
-    "types": ["node", "@types/jest"],
+    "types": ["node", "jest"],
     "outDir": "dist",
-    "rootDir": "./src",
+    "rootDir": ".",
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true
   },
-  "include": ["./src/**/*"],
-  "exclude": ["./node_modules/**/*", "./dist/**/*", "./test/**/*"]
+  "include": ["./src/**/*", "./test/**/*"],
+  "exclude": ["./node_modules/**/*", "./dist/**/*"]
 }
