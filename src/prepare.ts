@@ -1,5 +1,3 @@
-// Use dynamic import for @semantic-release/error in src/prepare.ts
-// Replace all top-level require/import for @semantic-release/error with dynamic import inside the exported function
 import { readJsonSync, writeJsonSync } from 'fs-extra'
 import PluginConfig from './@types/pluginConfig'
 import glob from 'glob'
