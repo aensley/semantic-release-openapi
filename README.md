@@ -11,7 +11,7 @@
 [![Test Coverage](https://api.codeclimate.com/v1/badges/ac7dbc9a2d5e0bf8bd7d/test_coverage)](https://codeclimate.com/github/aensley/semantic-release-openapi/test_coverage)
 [![npm downloads](https://img.shields.io/npm/dw/@aensley/semantic-release-openapi)][npm]
 
-A Semantic Release plugin to update versions in OpenAPI specifications.
+A Semantic Release plugin to update versions in OpenAPI / Swagger specification files.
 
 ## Installation
 
@@ -27,7 +27,7 @@ npm install --save-dev @aensley/semantic-release-openapi
 
 This plugin has one configuration option which must be supplied.
 
-- **`apiSpecFiles`**: An array of OpenAPI specification file paths. [Glob patterns](https://www.npmjs.com/package/glob) (e.g. `'*.yaml'`) are supported.
+- **`apiSpecFiles`**: An array of OpenAPI / Swagger specification file paths. [Glob patterns](https://www.npmjs.com/package/glob) (e.g. `'*.yaml'`) are supported.
 
   _All matching files must have a `.json`, `.yaml`, or `.yml` extension._
 
