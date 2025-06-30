@@ -9,14 +9,14 @@
     "esModuleInterop": true,
     "strictNullChecks": true,
     "moduleResolution": "node",
-    "typeRoots": ["./node_modules/@types", "./src/@types"],
+    "typeRoots": ["node_modules/@types", "src/@types"],
     "types": ["node", "jest"],
     "outDir": "dist",
-    "rootDir": ".",
+    "rootDir": "src",
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true
   },
-  "include": ["./src/**/*", "./test/**/*"],
-  "exclude": ["./node_modules/**/*", "./dist/**/*"]
+  "include": ["src/**/*"],
+  "exclude": ["node_modules/**/*", "dist/**/*", "test/**/*", "coverage/**/*"]
 }
