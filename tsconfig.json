@@ -12,11 +12,11 @@
     "typeRoots": ["node_modules/@types", "src/@types"],
     "types": ["node", "jest"],
     "outDir": "dist",
-    "rootDir": ".",
+    "rootDir": "src",
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true
   },
-  "include": ["src/**/*", "test/**/*"],
-  "exclude": ["node_modules/**/*", "dist/**/*", "coverage/**/*"]
+  "include": ["src/**/*"],
+  "exclude": ["node_modules/**/*", "dist/**/*", "test/**/*", "coverage/**/*"]
 }
