@@ -2,6 +2,7 @@ name: Bug Report
 description: File a bug report
 title: "[Bug]: "
 labels: ["bug", "triage"]
+projects: ["aensley/7"]
 assignees:
   - aensley
 body:
@@ -14,6 +15,13 @@ body:
     attributes:
       label: Node Version
       description: What version of Node are you using?
+    validations:
+      required: true
+  - type: input
+    id: package-version
+    attributes:
+      label: Package Version
+      description: What version of semantic-release-openapi are you using?
     validations:
       required: true
   - type: textarea
