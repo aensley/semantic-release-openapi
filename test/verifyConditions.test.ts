@@ -20,7 +20,7 @@ beforeAll(async () => {
   SemanticReleaseError = (await import('@semantic-release/error')).default
 })
 
-import { verifyConditions } from '../src/index'
+import { verifyConditions } from '../src/index.js'
 import glob from 'glob'
 
 jest.mock('glob', () => ({

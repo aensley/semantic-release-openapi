@@ -1,5 +1,5 @@
 import glob from 'glob'
-import PluginConfig from './@types/pluginConfig'
+import PluginConfig from './@types/pluginConfig.js'
 
 /**
  * verifyConditions hook for semantic release

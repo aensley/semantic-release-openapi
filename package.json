@@ -28,9 +28,10 @@
     "https://paypal.me/AndrewEnsley"
   ],
   "homepage": "https://github.com/aensley/semantic-release-openapi#readme",
-  "main": "dist/index.js",
-  "module": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "type": "module",
+  "main": "./dist/src/index.js",
+  "module": "./dist/src/index.js",
+  "types": "dist/src/index.d.ts",
   "source": "src/index.ts",
   "files": [
     "dist/**/*",
@@ -79,6 +80,7 @@
     "pre-commit": "^1.2.2",
     "prettier": "^3.6.1",
     "ts-jest": "^29",
+    "ts-node": "^10.9.2",
     "ts-standard": "^12.0.2",
     "typescript": "^5.8.3"
   },
@@ -134,10 +136,21 @@
     "vueIndentScriptAndStyle": false
   },
   "jest": {
-    "preset": "ts-jest",
+    "preset": "ts-jest/presets/default-esm",
     "testEnvironment": "node",
+    "extensionsToTreatAsEsm": [
+      ".ts"
+    ],
     "transform": {
-      "^.+\\.tsx?$": "ts-jest"
+      "^.+\\.tsx?$": [
+        "ts-jest",
+        {
+          "useESM": true
+        }
+      ]
+    },
+    "moduleNameMapper": {
+      "^(\\.{1,2}/.*)\\.js$": "$1"
     },
     "testMatch": [
       "**/test/**/*.test.ts"

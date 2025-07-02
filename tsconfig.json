@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "ESNext",
-    "module": "CommonJS",
+    "module": "ESNext",
     "lib": ["ESNext"],
     "declaration": true,
     "sourceMap": true,
@@ -12,11 +12,11 @@
     "typeRoots": ["node_modules/@types", "src/@types"],
     "types": ["node", "jest"],
     "outDir": "dist",
-    "rootDir": "src",
+    "rootDir": ".",
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true
   },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules/**/*", "dist/**/*", "test/**/*", "coverage/**/*"]
+  "include": ["src/**/*", "test/**/*"],
+  "exclude": ["node_modules/**/*", "dist/**/*", "coverage/**/*"]
 }

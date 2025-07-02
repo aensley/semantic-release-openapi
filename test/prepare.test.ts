@@ -24,7 +24,7 @@ jest.mock('glob', () => ({
 
 import SemanticReleaseError from '@semantic-release/error'
 import { readJsonSync, writeJsonSync } from 'fs-extra'
-import prepare from '../src/prepare'
+import prepare from '../src/prepare.js'
 import glob from 'glob'
 
 jest.mock('fs-extra')
