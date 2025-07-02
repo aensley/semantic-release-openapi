@@ -1,7 +1,7 @@
 import { readJsonSync, writeJsonSync } from 'fs-extra'
-import PluginConfig from './@types/pluginConfig'
+import PluginConfig from './@types/pluginConfig.js'
 import glob from 'glob'
-import getReplaceInFile from './getReplaceInFile'
+import getReplaceInFile from './getReplaceInFile.js'
 
 /**
  * Prepare the API Spec files
