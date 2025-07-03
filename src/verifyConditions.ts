@@ -1,4 +1,4 @@
-import glob from 'glob'
+import { fdir } from 'fdir'
 import PluginConfig from './@types/pluginConfig.js'
 
 /**
@@ -17,7 +17,8 @@ export default async function ({ apiSpecFiles }: PluginConfig): Promise<any> {
   const expectedExts: string[] = ['json', 'yaml', 'yml']
   let specFilesFound: boolean = false
   apiSpecFiles.forEach((fileNameGlob: string) => {
-    const fileNames: string[] = (glob as any).sync(fileNameGlob)
+    // eslint-disable-next-line new-cap
+    const fileNames: string[] = new fdir().glob(fileNameGlob).crawl('.').sync()
     if (fileNames.length > 0) {
       specFilesFound = true
       fileNames.forEach((fileName: string) => {

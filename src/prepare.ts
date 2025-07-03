@@ -1,6 +1,6 @@
 import { readJsonSync, writeJsonSync } from 'fs-extra'
 import PluginConfig from './@types/pluginConfig.js'
-import glob from 'glob'
+import { fdir } from 'fdir'
 import getReplaceInFile from './getReplaceInFile.js'
 
 /**
@@ -16,7 +16,8 @@ const prepareApiSpecFiles = async (apiSpecFiles: string[], version: string, logg
   const SemanticReleaseError = (await import('@semantic-release/error')).default
   try {
     for (const fileNameGlob of apiSpecFiles) {
-      const fileNames: string[] = (glob as any).sync(fileNameGlob)
+      // eslint-disable-next-line new-cap
+      const fileNames: string[] = new fdir().withRelativePaths().glob(fileNameGlob).crawl('.').sync()
       for (const fileName of fileNames) {
         let results: string[]
         if (fileName.split('.').pop() === 'json') {
