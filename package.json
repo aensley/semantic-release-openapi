@@ -36,8 +36,9 @@
   "files": [
     "dist/**/*",
     "src/**/*",
+    "package.json",
     "README.md",
-    "package.json"
+    "LICENSE"
   ],
   "engines": {
     "node": ">=16"
