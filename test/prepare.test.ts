@@ -15,18 +15,29 @@ jest.mock('@semantic-release/error', () => {
   }
 })
 
-// Mock glob to provide a sync function for tests
-jest.mock('glob', () => ({
-  __esModule: true,
-  default: { sync: jest.fn() },
-  sync: jest.fn()
-}))
-
 import SemanticReleaseError from '@semantic-release/error'
 import { readJsonSync, writeJsonSync } from 'fs-extra'
 import prepare from '../src/prepare.js'
-import glob from 'glob'
 
+// Configurable mock for fdir
+let mockFiles: string[] = []
+jest.mock('fdir', () => {
+  class fdirMock {
+    withRelativePaths() {
+      return this
+    }
+    glob() {
+      return this
+    }
+    crawl() {
+      return this
+    }
+    sync() {
+      return mockFiles
+    }
+  }
+  return { __esModule: true, fdir: fdirMock }
+})
 jest.mock('fs-extra')
 
 const logger = {
@@ -57,14 +68,12 @@ jest.mock('../src/getReplaceInFile', () => ({
 
 describe('prepare', () => {
   beforeEach(() => {
-    // Always pretend every file given exists.
-    ;(glob.sync as unknown as jest.Mock).mockImplementation((value: string) => {
-      return [value]
-    })
+    mockFiles = []
   })
 
   describe('should error', () => {
     it('if there is no version', async () => {
+      mockFiles = [yamlFilePath]
       const context = createContext({ version: '' }) // empty version
       expect.assertions(1) // Fail if there is no error caught.
       try {
@@ -75,6 +84,7 @@ describe('prepare', () => {
     })
 
     it('if there are no paths provided', async () => {
+      mockFiles = ['']
       const context = createContext()
       expect.assertions(1) // Fail if there is no error caught.
       try {
@@ -87,6 +97,7 @@ describe('prepare', () => {
 
   describe('openapi.json', () => {
     beforeEach(() => {
+      mockFiles = [jsonFilePath]
       ;(readJsonSync as jest.Mock).mockReturnValue({ info: { version: '1.2.2' } })
       ;(writeJsonSync as jest.Mock).mockReturnValue(true)
     })
@@ -105,6 +116,7 @@ describe('prepare', () => {
 
   describe('openapi.yaml', () => {
     beforeEach(() => {
+      mockFiles = [yamlFilePath]
       replaceSyncMock.mockReset()
       replaceSyncMock.mockReturnValue([
         {

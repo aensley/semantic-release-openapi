@@ -21,26 +21,32 @@ beforeAll(async () => {
 })
 
 import { verifyConditions } from '../src/index.js'
-import glob from 'glob'
 
-jest.mock('glob', () => ({
-  __esModule: true,
-  default: {
-    sync: jest.fn()
-  },
-  sync: jest.fn()
-}))
+// Configurable mock for fdir
+let mockFiles: string[] = []
+jest.mock('fdir', () => {
+  class fdirMock {
+    glob() {
+      return this
+    }
+    crawl() {
+      return this
+    }
+    sync() {
+      return mockFiles
+    }
+  }
+  return { __esModule: true, fdir: fdirMock }
+})
 
 describe('verifyConditions', () => {
   beforeEach(() => {
-    // Always pretend every file given exists.
-    ;(glob.sync as unknown as jest.Mock).mockImplementation((value: string) => {
-      return [value]
-    })
+    mockFiles = []
   })
 
   describe('apiSpecFiles', () => {
     it('errors if there are no paths provided', async () => {
+      mockFiles = []
       expect.assertions(1) // Fail if there is no error caught.
       try {
         await verifyConditions({ apiSpecFiles: [] })
@@ -55,9 +61,7 @@ describe('verifyConditions', () => {
     })
 
     it('errors if none of the paths exist', async () => {
-      ;(glob.sync as unknown as jest.Mock).mockImplementation((value: string) => {
-        return []
-      })
+      mockFiles = []
       expect.assertions(1) // Fail if there is no error caught.
       try {
         await verifyConditions({ apiSpecFiles: ['does-not-exist.yml'] })
@@ -72,6 +76,7 @@ describe('verifyConditions', () => {
     })
 
     it('errors if any of the paths has an invalid extension', async () => {
+      mockFiles = ['test/data/exists-but-invalid-extension.wrong']
       expect.assertions(1) // Fail if there is no error caught.
       try {
         await verifyConditions({ apiSpecFiles: ['test/data/exists-but-invalid-extension.wrong'] })
