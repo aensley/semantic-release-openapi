@@ -73,7 +73,6 @@
   "scripts": {
     "pre-commit-msg": "echo Running pre-commit checks...",
     "build": "tsc --build",
-    "clean": "tsc --build --clean",
     "format": "prettier --write .",
     "test": "ts-standard && prettier --check . && jest --coverage --verbose",
     "lint": "ts-standard && prettier --check .",
@@ -83,7 +82,6 @@
   "pre-commit": {
     "run": [
       "pre-commit-msg",
-      "clean",
       "test"
     ],
     "silent": true,
