@@ -1,5 +1,5 @@
 {
-  "name": "@aensley/semantic-release-openapi",
+  "name": "semantic-release-openapi",
   "version": "1.4.1",
   "description": "A Semantic Release plugin to update versions in OpenAPI / Swagger specification files",
   "repository": {
