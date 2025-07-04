@@ -10,11 +10,11 @@ jobs:
       matrix:
         node-version: [20, 22]
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           ref: ${{ github.event.after }}
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
       - name: Install dependencies
@@ -25,9 +25,7 @@ jobs:
         run: npm test
       - name: Report Coverage
         if: ${{ matrix.node-version == 22 }}
-        run: |
-          curl -sL https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-          chmod +x ./cc-test-reporter
-          ./cc-test-reporter after-build --coverage-input-type lcov ./coverage/lcov.info
-        env:
-          CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
+        uses: qltysh/qlty-action/coverage@v1
+        with:
+          token: ${{ secrets.CC_TEST_REPORTER_ID }}
+          files: coverage/lcov.info
