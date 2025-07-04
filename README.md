@@ -7,8 +7,8 @@
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat)](https://prettier.io)
 
 [![ci](https://github.com/aensley/semantic-release-openapi/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/aensley/semantic-release-openapi/actions/workflows/ci.yml)
-[![Maintainability](https://api.codeclimate.com/v1/badges/ac7dbc9a2d5e0bf8bd7d/maintainability)](https://codeclimate.com/github/aensley/semantic-release-openapi/maintainability)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/ac7dbc9a2d5e0bf8bd7d/test_coverage)](https://codeclimate.com/github/aensley/semantic-release-openapi/test_coverage)
+[![Maintainability](https://qlty.sh/gh/aensley/projects/semantic-release-openapi/maintainability.svg)](https://qlty.sh/gh/aensley/projects/semantic-release-openapi)
+[![Test Coverage](https://qlty.sh/gh/aensley/projects/semantic-release-openapi/coverage.svg)](https://qlty.sh/gh/aensley/projects/semantic-release-openapi)
 [![npm downloads](https://img.shields.io/npm/dw/semantic-release-openapi)][npm]
 
 A Semantic Release plugin to update versions in OpenAPI / Swagger specification files.
