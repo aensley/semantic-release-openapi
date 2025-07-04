@@ -16,8 +16,10 @@ jest.mock('@semantic-release/error', () => {
 })
 
 import SemanticReleaseError from '@semantic-release/error'
-import { readJsonSync, writeJsonSync } from 'fs-extra'
+import fsExtra from 'fs-extra'
 import prepare from '../src/prepare.js'
+
+const { readJsonSync, writeJsonSync } = fsExtra
 
 // Configurable mock for fdir
 let mockFiles: string[] = []

@@ -1,7 +1,9 @@
-import { readJsonSync, writeJsonSync } from 'fs-extra'
+import fsExtra from 'fs-extra'
 import PluginConfig from './@types/pluginConfig.js'
 import { fdir } from 'fdir'
 import getReplaceInFile from './getReplaceInFile.js'
+
+const { readJsonSync, writeJsonSync } = fsExtra
 
 /**
  * Prepare the API Spec files
