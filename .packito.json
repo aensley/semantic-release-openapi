@@ -1,0 +1,19 @@
+{
+  "remove": {
+    "devDependencies": "*",
+    "scripts": "*",
+    "pre-commit": "*",
+    "eslintConfig": "*",
+    "jest": "*",
+    "ts-standard": "*",
+    "prettier": "*",
+    "release": "*"
+  },
+  "replace": {
+    "main": "index.js",
+    "module": "index.js",
+    "types": "index.d.ts",
+    "files": ["**/*"]
+  },
+  "publisher": "npm"
+}

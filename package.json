@@ -29,16 +29,14 @@
   ],
   "homepage": "https://github.com/aensley/semantic-release-openapi#readme",
   "type": "module",
-  "main": "./dist/index.js",
-  "module": "./dist/index.js",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
   "types": "dist/index.d.ts",
-  "source": "src/index.ts",
   "files": [
     "dist/**/*",
-    "src/**/*",
+    "LICENSE",
     "package.json",
-    "README.md",
-    "LICENSE"
+    "README.md"
   ],
   "engines": {
     "node": ">=16"
@@ -55,11 +53,12 @@
     "@semantic-release/git": "^10.0.1",
     "@types/fs-extra": "^11.0.4",
     "@types/jest": "^29",
-    "@types/node": "^24.0.10",
+    "@types/node": "^24.0.12",
     "@types/picomatch": "^4.0.0",
-    "@types/semantic-release": "^20.0.6",
+    "@types/semantic-release": "^21.1.0",
     "@types/semantic-release__error": "^3.0.3",
     "jest": "^29",
+    "packito": "^0.5.0",
     "pre-commit": "^1.2.2",
     "prettier": "^3.6.2",
     "ts-jest": "^29",
@@ -71,12 +70,14 @@
     "semantic-release": ">=20.0.0"
   },
   "scripts": {
-    "pre-commit-msg": "echo Running pre-commit checks...",
-    "build": "tsc --build",
-    "format": "prettier --write .",
-    "test": "ts-standard && prettier --check . && jest --coverage --verbose",
+    "build": "tsc",
     "lint": "ts-standard && prettier --check .",
+    "lint:fix": "prettier --write .",
+    "packito": "packito --no-publish",
+    "pre-commit-msg": "echo Running pre-commit checks...",
+    "pre-publish": "npm run build && npm run packito && cp README.md dist/ && cp LICENSE dist/",
     "setup": "npm install && npm run prepare-hook",
+    "test": "npm run lint && jest --coverage --verbose",
     "update": "npx npm-check-updates -u && npm update"
   },
   "pre-commit": {
@@ -95,7 +96,19 @@
       "@semantic-release/commit-analyzer",
       "@semantic-release/release-notes-generator",
       "@semantic-release/github",
-      "@semantic-release/npm",
+      [
+        "@semantic-release/npm",
+        {
+          "npmPublish": false
+        }
+      ],
+      [
+        "@semantic-release/npm",
+        {
+          "pkgRoot": "dist",
+          "npmPublish": true
+        }
+      ],
       [
         "@semantic-release/git",
         {
