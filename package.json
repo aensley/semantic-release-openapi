@@ -34,7 +34,9 @@
   "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
-    "package.json"
+    "LICENSE",
+    "package.json",
+    "README.md"
   ],
   "engines": {
     "node": ">=16"
@@ -73,7 +75,7 @@
     "lint:fix": "prettier --write .",
     "packito": "packito --no-publish",
     "pre-commit-msg": "echo Running pre-commit checks...",
-    "pre-publish": "npm run build && npm test && npm run packito",
+    "pre-publish": "npm run build && npm run packito && cp README.md dist/ && cp LICENSE dist/",
     "setup": "npm install && npm run prepare-hook",
     "test": "npm run lint && jest --coverage --verbose",
     "update": "npx npm-check-updates -u && npm update"
