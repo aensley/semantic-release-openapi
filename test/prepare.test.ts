@@ -25,7 +25,7 @@ const { readJsonSync, writeJsonSync } = fsExtra
 let mockFiles: string[] = []
 jest.mock('fdir', () => {
   class fdirMock {
-    withRelativePaths() {
+    withBasePath() {
       return this
     }
     glob() {
