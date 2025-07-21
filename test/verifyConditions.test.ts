@@ -26,6 +26,9 @@ import { verifyConditions } from '../src/index.js'
 let mockFiles: string[] = []
 jest.mock('fdir', () => {
   class fdirMock {
+    withBasePath() {
+      return this
+    }
     glob() {
       return this
     }

@@ -18,7 +18,7 @@ export default async function ({ apiSpecFiles }: PluginConfig): Promise<any> {
   let specFilesFound: boolean = false
   apiSpecFiles.forEach((fileNameGlob: string) => {
     // eslint-disable-next-line new-cap
-    const fileNames: string[] = new fdir().glob(fileNameGlob).crawl('.').sync()
+    const fileNames: string[] = new fdir().glob(fileNameGlob).withBasePath().crawl('.').sync()
     if (fileNames.length > 0) {
       specFilesFound = true
       fileNames.forEach((fileName: string) => {

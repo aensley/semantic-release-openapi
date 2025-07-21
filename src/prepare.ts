@@ -19,7 +19,7 @@ const prepareApiSpecFiles = async (apiSpecFiles: string[], version: string, logg
   try {
     for (const fileNameGlob of apiSpecFiles) {
       // eslint-disable-next-line new-cap
-      const fileNames: string[] = new fdir().withRelativePaths().glob(fileNameGlob).crawl('.').sync()
+      const fileNames: string[] = new fdir().glob(fileNameGlob).withBasePath().crawl('.').sync()
       for (const fileName of fileNames) {
         let results: string[]
         if (fileName.split('.').pop() === 'json') {
