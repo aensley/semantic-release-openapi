@@ -44,7 +44,7 @@
   "platform": "node",
   "dependencies": {
     "@semantic-release/error": "^4.0.0",
-    "fdir": "^6.4.6",
+    "fdir": "^6.5.0",
     "fs-extra": "^11.3.0",
     "picomatch": "^4.0.2",
     "replace-in-file": "^8.3.0"
