@@ -47,7 +47,7 @@
     "fdir": "^6.4.6",
     "fs-extra": "^11.3.0",
     "picomatch": "^4.0.2",
-    "replace-in-file": "^8.3.0"
+    "replace-in-file": "^8.4.0"
   },
   "devDependencies": {
     "@semantic-release/git": "^10.0.1",
