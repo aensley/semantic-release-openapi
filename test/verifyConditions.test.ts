@@ -2,57 +2,25 @@
  * Test verifyConditions
  */
 
-jest.mock('@semantic-release/error', () => {
-  return {
-    __esModule: true,
-    default: class SemanticReleaseError extends Error {
-      constructor(message: string, code?: string) {
-        super(message)
-        this.name = 'SemanticReleaseError'
-        if (code) (this as any).code = code
-      }
-    }
-  }
-})
+import SemanticReleaseError from '@semantic-release/error'
+import verifyConditons from '../src/verifyConditions'
+import glob from 'glob'
 
-let SemanticReleaseError: any
-beforeAll(async () => {
-  SemanticReleaseError = (await import('@semantic-release/error')).default
-})
-
-import { verifyConditions } from '../src/index.js'
-
-// Configurable mock for fdir
-let mockFiles: string[] = []
-jest.mock('fdir', () => {
-  class fdirMock {
-    withBasePath() {
-      return this
-    }
-    glob() {
-      return this
-    }
-    crawl() {
-      return this
-    }
-    sync() {
-      return mockFiles
-    }
-  }
-  return { __esModule: true, fdir: fdirMock }
-})
+jest.mock('glob')
 
 describe('verifyConditions', () => {
   beforeEach(() => {
-    mockFiles = []
+    // Always pretend every file given exists.
+    ;(glob.sync as jest.Mock).mockImplementation((value: string) => {
+      return [value]
+    })
   })
 
   describe('apiSpecFiles', () => {
     it('errors if there are no paths provided', async () => {
-      mockFiles = []
       expect.assertions(1) // Fail if there is no error caught.
       try {
-        await verifyConditions({ apiSpecFiles: [] })
+        await verifyConditons({ apiSpecFiles: [] })
       } catch (e) {
         expect(e).toEqual(
           new SemanticReleaseError(
@@ -64,10 +32,12 @@ describe('verifyConditions', () => {
     })
 
     it('errors if none of the paths exist', async () => {
-      mockFiles = []
+      ;(glob.sync as jest.Mock).mockImplementation((value: string) => {
+        return []
+      })
       expect.assertions(1) // Fail if there is no error caught.
       try {
-        await verifyConditions({ apiSpecFiles: ['does-not-exist.yml'] })
+        await verifyConditons({ apiSpecFiles: ['does-not-exist.yml'] })
       } catch (e) {
         expect(e).toEqual(
           new SemanticReleaseError(
@@ -79,10 +49,9 @@ describe('verifyConditions', () => {
     })
 
     it('errors if any of the paths has an invalid extension', async () => {
-      mockFiles = ['test/data/exists-but-invalid-extension.wrong']
       expect.assertions(1) // Fail if there is no error caught.
       try {
-        await verifyConditions({ apiSpecFiles: ['test/data/exists-but-invalid-extension.wrong'] })
+        await verifyConditons({ apiSpecFiles: ['test/data/exists-but-invalid-extension.wrong'] })
       } catch (e) {
         expect(e).toEqual(
           new SemanticReleaseError(
