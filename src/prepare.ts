@@ -1,9 +1,9 @@
-import fsExtra from 'fs-extra'
-import PluginConfig from './@types/pluginConfig.js'
-import { fdir } from 'fdir'
-import getReplaceInFile from './getReplaceInFile.js'
-
-const { readJsonSync, writeJsonSync } = fsExtra
+import SemanticReleaseError from '@semantic-release/error'
+import { readJsonSync, writeJsonSync } from 'fs-extra'
+import replace from 'replace-in-file'
+import { Context } from 'semantic-release'
+import PluginConfig from './@types/pluginConfig'
+import glob from 'glob'
 
 /**
  * Prepare the API Spec files
@@ -14,24 +14,22 @@ const { readJsonSync, writeJsonSync } = fsExtra
  *
  * @throws {SemanticReleaseError}
  */
-const prepareApiSpecFiles = async (apiSpecFiles: string[], version: string, logger: any): Promise<any> => {
-  const SemanticReleaseError = (await import('@semantic-release/error')).default
+const prepareApiSpecFiles = (apiSpecFiles: string[], version: string, logger: Context['logger']): any => {
   try {
-    for (const fileNameGlob of apiSpecFiles) {
-      // eslint-disable-next-line new-cap
-      const fileNames: string[] = new fdir().glob(fileNameGlob).withBasePath().crawl('.').sync()
-      for (const fileName of fileNames) {
+    apiSpecFiles.forEach((fileNameGlob: string) => {
+      const fileNames: string[] = glob.sync(fileNameGlob)
+      fileNames.forEach((fileName: string) => {
         let results: string[]
         if (fileName.split('.').pop() === 'json') {
           results = prepareApiSpecFileJson(fileName, version)
         } else {
-          results = await prepareApiSpecFileYml(fileName, version)
+          results = prepareApiSpecFileYml(fileName, version)
         }
         results.forEach((resultFileName: string) => {
           logger.log('Wrote version %s to %s', version, resultFileName)
         })
-      }
-    }
+      })
+    })
   } catch (error: any) {
     throw new SemanticReleaseError(error)
   }
@@ -45,16 +43,16 @@ const prepareApiSpecFiles = async (apiSpecFiles: string[], version: string, logg
  *
  * @returns {string[]} A list of altered files
  */
-const prepareApiSpecFileYml = async (apiSpecFile: string, version: string): Promise<string[]> => {
-  const replace = await getReplaceInFile()
-  return (replace as any)
+const prepareApiSpecFileYml = (apiSpecFile: string, version: string): string[] => {
+  const changedFiles = replace
     .sync({
       files: apiSpecFile,
       from: /version: ?.+$/im,
       to: 'version: ' + version
     })
-    .filter((result: any) => result.hasChanged)
-    .map((result: any) => result.file)
+    .filter((result) => result.hasChanged)
+    .map((result) => result.file)
+  return changedFiles
 }
 
 /**
@@ -77,11 +75,11 @@ const prepareApiSpecFileJson = (apiSpecFile: string, version: string): string[] 
  *
  * @throws {SemanticReleaseError}
  */
-export default async function ({ apiSpecFiles }: PluginConfig, { nextRelease, logger }: any): Promise<any> {
+export default ({ apiSpecFiles }: PluginConfig, { nextRelease, logger }: Context): any => {
   const version = nextRelease?.version ?? ''
   if (version.length < 1) {
-    const SemanticReleaseError = (await import('@semantic-release/error')).default
     throw new SemanticReleaseError('Could not determine the version from semantic release.')
   }
-  await prepareApiSpecFiles(apiSpecFiles, version, logger)
+
+  prepareApiSpecFiles(apiSpecFiles, version, logger)
 }
