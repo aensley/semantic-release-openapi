@@ -47,13 +47,16 @@
     "pre-publish": "npm run build && npm run packito && cp README.md dist/ && cp LICENSE dist/",
     "setup": "npm install && npm run prepare-hook",
     "test": "npm run lint && jest --coverage --verbose",
-    "update": "npx npm-check-updates -u && npm update",
-    "prepare-hook": "echo 'exec < /dev/tty && node_modules/.bin/cz --hook || true' > .git/hooks/prepare-commit-msg && chmod +x .git/hooks/prepare-commit-msg"
+    "update": "npx npm-check-updates -u && npm update"
   },
-  "pre-commit": [
-    "pre-commit-msg",
-    "test"
-  ],
+  "pre-commit": {
+    "run": [
+      "pre-commit-msg",
+      "test"
+    ],
+    "silent": true,
+    "colors": true
+  },
   "engines": {
     "node": ">=16"
   },

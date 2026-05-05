@@ -7,11 +7,11 @@
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat)](https://prettier.io)
 
 [![ci](https://github.com/aensley/semantic-release-openapi/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/aensley/semantic-release-openapi/actions/workflows/ci.yml)
-[![Maintainability](https://api.codeclimate.com/v1/badges/ac7dbc9a2d5e0bf8bd7d/maintainability)](https://codeclimate.com/github/aensley/semantic-release-openapi/maintainability)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/ac7dbc9a2d5e0bf8bd7d/test_coverage)](https://codeclimate.com/github/aensley/semantic-release-openapi/test_coverage)
+[![Maintainability](https://qlty.sh/gh/aensley/projects/semantic-release-openapi/maintainability.svg)][qltysh]
+[![Test Coverage](https://qlty.sh/gh/aensley/projects/semantic-release-openapi/coverage.svg)][qltysh]
 [![npm downloads](https://img.shields.io/npm/dw/semantic-release-openapi)][npm]
 
-A Semantic Release plugin to update versions in OpenAPI specifications.
+A Semantic Release plugin to update versions in OpenAPI / Swagger specification files.
 
 ## Installation
 
@@ -27,7 +27,7 @@ npm install --save-dev semantic-release-openapi
 
 This plugin has one configuration option which must be supplied.
 
-- **`apiSpecFiles`**: An array of OpenAPI specification file paths. [Glob patterns](https://www.npmjs.com/package/glob) (e.g. `'*.yaml'`) are supported.
+- **`apiSpecFiles`**: An array of OpenAPI / Swagger specification file paths. [Glob patterns](https://www.gnu.org/software/bash/manual/bash.html#Pattern-Matching) (e.g. `'*.yaml'`) are supported.
 
   _All matching files must have a `.json`, `.yaml`, or `.yml` extension._
 
@@ -59,3 +59,4 @@ This plugin has one configuration option which must be supplied.
 ```
 
 [npm]: https://www.npmjs.com/package/semantic-release-openapi
+[qltysh]: https://qlty.sh/gh/aensley/projects/semantic-release-openapi
