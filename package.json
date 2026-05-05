@@ -65,7 +65,7 @@
     "@semantic-release/error": "^3.0.0",
     "fs-extra": "^10.1.0",
     "glob": "^8.0.3",
-    "replace-in-file": "^6.3.5",
+    "replace-in-file": "^8.4.0",
     "semantic-release": "^19.0.5"
   },
   "devDependencies": {
