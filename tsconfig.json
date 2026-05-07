@@ -1,14 +1,15 @@
 {
   "compilerOptions": {
     "target": "ESNext",
-    "module": "CommonJS",
+    "module": "NodeNext",
     "lib": ["ESNext"],
     "declaration": true,
     "sourceMap": true,
     "strict": true,
     "esModuleInterop": true,
     "strictNullChecks": true,
-    "moduleResolution": "node",
+    "moduleResolution": "NodeNext",
+    "isolatedModules": true,
     "typeRoots": ["./node_modules/@types", "./src/@types"],
     "types": ["node", "jest"],
     "outDir": "dist",
