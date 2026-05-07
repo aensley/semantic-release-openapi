@@ -4,14 +4,16 @@
 
 import SemanticReleaseError from '@semantic-release/error'
 import verifyConditons from '../src/verifyConditions'
-import glob from 'glob'
+import { globSync } from 'glob'
 
-jest.mock('glob')
+jest.mock('glob', () => ({
+  globSync: jest.fn()
+}))
 
 describe('verifyConditions', () => {
   beforeEach(() => {
     // Always pretend every file given exists.
-    ;(glob.sync as jest.Mock).mockImplementation((value: string) => {
+    ;(globSync as unknown as jest.Mock).mockImplementation((value: string) => {
       return [value]
     })
   })
@@ -32,7 +34,7 @@ describe('verifyConditions', () => {
     })
 
     it('errors if none of the paths exist', async () => {
-      ;(glob.sync as jest.Mock).mockImplementation((value: string) => {
+      ;(globSync as unknown as jest.Mock).mockImplementation((value: string) => {
         return []
       })
       expect.assertions(1) // Fail if there is no error caught.

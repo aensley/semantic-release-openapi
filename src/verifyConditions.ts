@@ -1,5 +1,5 @@
 import SemanticReleaseError from '@semantic-release/error'
-import glob from 'glob'
+import { globSync } from 'glob'
 import PluginConfig from './@types/pluginConfig'
 
 /**
@@ -18,7 +18,7 @@ export default async ({ apiSpecFiles }: PluginConfig): Promise<any> => {
   const expectedExts: string[] = ['json', 'yaml', 'yml']
   let specFilesFound: boolean = false
   apiSpecFiles.forEach((fileNameGlob: string) => {
-    const fileNames: string[] = glob.sync(fileNameGlob)
+    const fileNames: string[] = globSync(fileNameGlob)
     if (fileNames.length > 0) {
       specFilesFound = true
       fileNames.forEach((fileName: string) => {
