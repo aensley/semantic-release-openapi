@@ -10,7 +10,7 @@
     "strictNullChecks": true,
     "moduleResolution": "node",
     "typeRoots": ["./node_modules/@types", "./src/@types"],
-    "types": ["node", "@types/jest"],
+    "types": ["node", "jest"],
     "outDir": "dist",
     "rootDir": "./src",
     "allowSyntheticDefaultImports": true,
