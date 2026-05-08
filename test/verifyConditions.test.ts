@@ -7,16 +7,25 @@
 import { jest, describe, it, expect, beforeEach } from '@jest/globals'
 import SemanticReleaseError from '@semantic-release/error'
 
-jest.unstable_mockModule('glob', () => ({
-  globSync: jest.fn()
+const mockFdirSync = jest.fn()
+
+jest.unstable_mockModule('fdir', () => ({
+  fdir: jest.fn().mockImplementation(() => ({
+    glob: (pattern: string) => ({
+      withBasePath: () => ({
+        crawl: () => ({
+          sync: () => mockFdirSync(pattern)
+        })
+      })
+    })
+  }))
 }))
 
 const { default: verifyConditions } = await import('../src/verifyConditions.js')
-const { globSync } = await import('glob')
 
 describe('verifyConditions', () => {
   beforeEach(() => {
-    ;(globSync as unknown as jest.Mock).mockImplementation((value: unknown) => {
+    mockFdirSync.mockImplementation((value: unknown) => {
       return [value]
     })
   })
@@ -41,7 +50,7 @@ describe('verifyConditions', () => {
     })
 
     it('errors if none of the paths exist', async () => {
-      ;(globSync as unknown as jest.Mock).mockImplementation(() => {
+      mockFdirSync.mockImplementation(() => {
         return []
       })
       expect.assertions(1) // Fail if there is no error caught.

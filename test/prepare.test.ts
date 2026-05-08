@@ -8,6 +8,19 @@ import { jest, describe, it, expect, beforeEach } from '@jest/globals'
 import SemanticReleaseError from '@semantic-release/error'
 import type { PrepareContext } from 'semantic-release'
 
+const mockFdirSync = jest.fn()
+
+jest.unstable_mockModule('fdir', () => ({
+  fdir: jest.fn().mockImplementation(() => ({
+    glob: (pattern: string) => ({
+      withBasePath: () => ({
+        crawl: () => ({
+          sync: () => mockFdirSync(pattern)
+        })
+      })
+    })
+  }))
+}))
 jest.unstable_mockModule('fs-extra', () => ({
   readJsonSync: jest.fn(),
   writeJsonSync: jest.fn()
@@ -15,14 +28,10 @@ jest.unstable_mockModule('fs-extra', () => ({
 jest.unstable_mockModule('replace-in-file', () => ({
   replaceInFileSync: jest.fn()
 }))
-jest.unstable_mockModule('glob', () => ({
-  globSync: jest.fn()
-}))
 
 const { default: prepare } = await import('../src/prepare.js')
 const { readJsonSync, writeJsonSync } = await import('fs-extra')
 const { replaceInFileSync } = await import('replace-in-file')
-const { globSync } = await import('glob')
 
 const logger = {
   log: jest.fn(),
@@ -45,7 +54,7 @@ const yamlFilePath = 'test/data/openapi.yaml'
 describe('prepare', () => {
   beforeEach(() => {
     // Always pretend every file given exists.
-    ;(globSync as unknown as jest.Mock).mockImplementation((value: unknown) => {
+    mockFdirSync.mockImplementation((value: unknown) => {
       return [value]
     })
   })
