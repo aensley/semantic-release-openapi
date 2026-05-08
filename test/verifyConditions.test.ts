@@ -1,5 +1,7 @@
 /**
  * Test verifyConditions
+ *
+ * @group unit
  */
 
 import { jest, describe, it, expect, beforeEach } from '@jest/globals'
