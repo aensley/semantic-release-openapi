@@ -70,6 +70,16 @@ describe('prepare', () => {
         expect(e).toBeInstanceOf(SemanticReleaseError)
       }
     })
+
+    it('if nextRelease is undefined', async () => {
+      const context = { nextRelease: undefined, logger, cwd: '/path/to/cwd' } as unknown as PrepareContext
+      expect.assertions(1) // Fail if there is no error caught.
+      try {
+        await prepare({ apiSpecFiles: [yamlFilePath] }, context)
+      } catch (e) {
+        expect(e).toEqual(new SemanticReleaseError('Could not determine the version from semantic release.'))
+      }
+    })
   })
 
   describe('openapi.json', () => {
