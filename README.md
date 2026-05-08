@@ -1,15 +1,13 @@
 # semantic-release-openapi
 
 [![npm](https://img.shields.io/npm/v/semantic-release-openapi)][npm]
-[![npm types](https://badgen.net/npm/types/semantic-release-openapi?icon=typescript)][npm]
 [![license](https://img.shields.io/github/license/aensley/semantic-release-openapi.svg)](https://github.com/aensley/semantic-release-openapi/blob/main/LICENSE)
-[![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg?style=flat)](https://standardjs.com)
-[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat)](https://prettier.io)
-
+[![install size](https://packagephobia.com/badge?p=semantic-release-openapi)](https://packagephobia.com/result?p=semantic-release-openapi)
+[![npm downloads](https://img.shields.io/npm/dw/semantic-release-openapi)][npm]<br>
+[![npm types](https://badgen.net/npm/types/semantic-release-openapi?icon=typescript)][npm]
 [![ci](https://github.com/aensley/semantic-release-openapi/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/aensley/semantic-release-openapi/actions/workflows/ci.yml)
 [![Maintainability](https://qlty.sh/gh/aensley/projects/semantic-release-openapi/maintainability.svg)][qltysh]
 [![Test Coverage](https://qlty.sh/gh/aensley/projects/semantic-release-openapi/coverage.svg)][qltysh]
-[![npm downloads](https://img.shields.io/npm/dw/semantic-release-openapi)][npm]
 
 A Semantic Release plugin to update versions in OpenAPI / Swagger specification files.
 

@@ -1,5 +1,5 @@
 import SemanticReleaseError from '@semantic-release/error'
-import { globSync } from 'glob'
+import { fdir } from 'fdir'
 import { extname } from 'node:path'
 import PluginConfig from './@types/pluginConfig.js'
 
@@ -8,7 +8,7 @@ import PluginConfig from './@types/pluginConfig.js'
  *
  * @throws {SemanticReleaseError}
  */
-export default async ({ apiSpecFiles }: PluginConfig): Promise<any> => {
+const verifyConditions = async ({ apiSpecFiles }: PluginConfig): Promise<any> => {
   if (apiSpecFiles.length < 1) {
     throw new SemanticReleaseError(
       'Option "apiSpecFiles" was not included in the plugin config. See the README for instructions.',
@@ -19,7 +19,8 @@ export default async ({ apiSpecFiles }: PluginConfig): Promise<any> => {
   const expectedExts: string[] = ['json', 'yaml', 'yml']
   let specFilesFound: boolean = false
   apiSpecFiles.forEach((fileNameGlob: string) => {
-    const fileNames: string[] = globSync(fileNameGlob)
+    // eslint-disable-next-line new-cap
+    const fileNames: string[] = new fdir().glob(fileNameGlob).withBasePath().crawl('.').sync() as string[]
     if (fileNames.length > 0) {
       specFilesFound = true
       fileNames.forEach((fileName: string) => {
@@ -40,3 +41,5 @@ export default async ({ apiSpecFiles }: PluginConfig): Promise<any> => {
     )
   }
 }
+
+export default verifyConditions

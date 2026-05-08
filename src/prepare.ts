@@ -3,7 +3,7 @@ import { readJsonSync, writeJsonSync } from 'fs-extra'
 import { replaceInFileSync } from 'replace-in-file'
 import { PrepareContext } from 'semantic-release'
 import PluginConfig from './@types/pluginConfig.js'
-import { globSync } from 'glob'
+import { fdir } from 'fdir'
 
 /**
  * Prepare the API Spec files
@@ -17,7 +17,8 @@ import { globSync } from 'glob'
 const prepareApiSpecFiles = (apiSpecFiles: string[], version: string, logger: PrepareContext['logger']): any => {
   try {
     apiSpecFiles.forEach((fileNameGlob: string) => {
-      const fileNames: string[] = globSync(fileNameGlob)
+      // eslint-disable-next-line new-cap
+      const fileNames: string[] = new fdir().glob(fileNameGlob).withBasePath().crawl('.').sync() as string[]
       fileNames.forEach((fileName: string) => {
         let results: string[]
         if (fileName.split('.').pop() === 'json') {
@@ -74,7 +75,7 @@ const prepareApiSpecFileJson = (apiSpecFile: string, version: string): string[] 
  *
  * @throws {SemanticReleaseError}
  */
-export default ({ apiSpecFiles }: PluginConfig, { nextRelease, logger }: PrepareContext): any => {
+const prepare = ({ apiSpecFiles }: PluginConfig, { nextRelease, logger }: PrepareContext): any => {
   const version = nextRelease?.version ?? ''
   if (version.length < 1) {
     throw new SemanticReleaseError('Could not determine the version from semantic release.')
@@ -82,3 +83,5 @@ export default ({ apiSpecFiles }: PluginConfig, { nextRelease, logger }: Prepare
 
   prepareApiSpecFiles(apiSpecFiles, version, logger)
 }
+
+export default prepare
