@@ -1,23 +1,23 @@
 import SemanticReleaseError from '@semantic-release/error'
 import { readJsonSync, writeJsonSync } from 'fs-extra'
 import replace from 'replace-in-file'
-import { Context } from 'semantic-release'
+import { PrepareContext } from 'semantic-release'
 import PluginConfig from './@types/pluginConfig'
-import glob from 'glob'
+import { globSync } from 'glob'
 
 /**
  * Prepare the API Spec files
  *
  * @param {string[]}          apiSpecFiles List of api spec file paths, globs supported
  * @param {string}            version      The version string to write to the files
- * @param {Context['logger']} logger       The semantic release logger instance
+ * @param {PrepareContext['logger']} logger       The semantic release logger instance
  *
  * @throws {SemanticReleaseError}
  */
-const prepareApiSpecFiles = (apiSpecFiles: string[], version: string, logger: Context['logger']): any => {
+const prepareApiSpecFiles = (apiSpecFiles: string[], version: string, logger: PrepareContext['logger']): any => {
   try {
     apiSpecFiles.forEach((fileNameGlob: string) => {
-      const fileNames: string[] = glob.sync(fileNameGlob)
+      const fileNames: string[] = globSync(fileNameGlob)
       fileNames.forEach((fileName: string) => {
         let results: string[]
         if (fileName.split('.').pop() === 'json') {
@@ -45,7 +45,7 @@ const prepareApiSpecFiles = (apiSpecFiles: string[], version: string, logger: Co
  */
 const prepareApiSpecFileYml = (apiSpecFile: string, version: string): string[] => {
   const changedFiles = replace
-    .sync({
+    .replaceInFileSync({
       files: apiSpecFile,
       from: /version: ?.+$/im,
       to: 'version: ' + version
@@ -75,7 +75,7 @@ const prepareApiSpecFileJson = (apiSpecFile: string, version: string): string[] 
  *
  * @throws {SemanticReleaseError}
  */
-export default ({ apiSpecFiles }: PluginConfig, { nextRelease, logger }: Context): any => {
+export default ({ apiSpecFiles }: PluginConfig, { nextRelease, logger }: PrepareContext): any => {
   const version = nextRelease?.version ?? ''
   if (version.length < 1) {
     throw new SemanticReleaseError('Could not determine the version from semantic release.')
