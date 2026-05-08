@@ -2,18 +2,19 @@
  * Test verifyConditions
  */
 
+import { jest, describe, it, expect, beforeEach } from '@jest/globals'
 import SemanticReleaseError from '@semantic-release/error'
-import verifyConditons from '../src/verifyConditions'
-import { globSync } from 'glob'
 
-jest.mock('glob', () => ({
+jest.unstable_mockModule('glob', () => ({
   globSync: jest.fn()
 }))
 
+const { default: verifyConditions } = await import('../src/verifyConditions.js')
+const { globSync } = await import('glob')
+
 describe('verifyConditions', () => {
   beforeEach(() => {
-    // Always pretend every file given exists.
-    ;(globSync as unknown as jest.Mock).mockImplementation((value: string) => {
+    ;(globSync as unknown as jest.Mock).mockImplementation((value: unknown) => {
       return [value]
     })
   })
@@ -22,7 +23,7 @@ describe('verifyConditions', () => {
     it('errors if there are no paths provided', async () => {
       expect.assertions(1) // Fail if there is no error caught.
       try {
-        await verifyConditons({ apiSpecFiles: [] })
+        await verifyConditions({ apiSpecFiles: [] })
       } catch (e) {
         expect(e).toEqual(
           new SemanticReleaseError(
@@ -34,12 +35,12 @@ describe('verifyConditions', () => {
     })
 
     it('errors if none of the paths exist', async () => {
-      ;(globSync as unknown as jest.Mock).mockImplementation((value: string) => {
+      ;(globSync as unknown as jest.Mock).mockImplementation(() => {
         return []
       })
       expect.assertions(1) // Fail if there is no error caught.
       try {
-        await verifyConditons({ apiSpecFiles: ['does-not-exist.yml'] })
+        await verifyConditions({ apiSpecFiles: ['does-not-exist.yml'] })
       } catch (e) {
         expect(e).toEqual(
           new SemanticReleaseError(
@@ -53,7 +54,7 @@ describe('verifyConditions', () => {
     it('errors if any of the paths has an invalid extension', async () => {
       expect.assertions(1) // Fail if there is no error caught.
       try {
-        await verifyConditons({ apiSpecFiles: ['test/data/exists-but-invalid-extension.wrong'] })
+        await verifyConditions({ apiSpecFiles: ['test/data/exists-but-invalid-extension.wrong'] })
       } catch (e) {
         expect(e).toEqual(
           new SemanticReleaseError(

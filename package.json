@@ -19,6 +19,7 @@
     "email": "aensley@users.noreply.github.com",
     "url": "https://andrewensley.com"
   },
+  "type": "module",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/aensley/semantic-release-openapi/issues/new?template=bug-report.yml"
@@ -46,7 +47,7 @@
     "pre-commit-msg": "echo Running pre-commit checks...",
     "pre-publish": "npm run build && npm run packito && cp README.md dist/ && cp LICENSE dist/",
     "setup": "npm install && npm run prepare-hook",
-    "test": "npm run lint && jest --coverage --verbose",
+    "test": "npm run lint && NODE_OPTIONS=--experimental-vm-modules jest --coverage --verbose",
     "update": "npx npm-check-updates -u && npm update"
   },
   "pre-commit": {
@@ -153,14 +154,21 @@
   },
   "jest": {
     "clearMocks": true,
+    "extensionsToTreatAsEsm": [
+      ".ts"
+    ],
     "testEnvironment": "node",
     "transform": {
       "^.+\\.[jt]s$": [
         "ts-jest",
         {
-          "tsconfig": "tsconfig.test.json"
+          "tsconfig": "tsconfig.test.json",
+          "useESM": true
         }
       ]
+    },
+    "moduleNameMapper": {
+      "^(\\.{1,2}/.*)\\.js$": "$1"
     },
     "transformIgnorePatterns": [
       "/node_modules/(?!(@semantic-release/error|glob|replace-in-file)/)"
