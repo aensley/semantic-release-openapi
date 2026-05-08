@@ -6,7 +6,7 @@ import { describe, it, expect, beforeEach, afterEach } from '@jest/globals'
 import * as fs from 'node:fs'
 import * as path from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { readJsonSync } from 'fs-extra'
+import { readFileSync as readJsonSync } from 'jsonfile'
 import type { PrepareContext } from 'semantic-release'
 
 const { default: prepare } = await import('../../src/prepare.js')

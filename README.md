@@ -2,6 +2,7 @@
 
 [![npm](https://img.shields.io/npm/v/semantic-release-openapi)][npm]
 [![license](https://img.shields.io/github/license/aensley/semantic-release-openapi.svg)](https://github.com/aensley/semantic-release-openapi/blob/main/LICENSE)
+[![sponsor](https://img.shields.io/badge/sponsor-4d4d4d?logo=github&logoColor=white)](https://github.com/sponsors/aensley)
 [![install size](https://packagephobia.com/badge?p=semantic-release-openapi)](https://packagephobia.com/result?p=semantic-release-openapi)
 [![npm downloads](https://img.shields.io/npm/dw/semantic-release-openapi)][npm]<br>
 [![npm types](https://badgen.net/npm/types/semantic-release-openapi?icon=typescript)][npm]

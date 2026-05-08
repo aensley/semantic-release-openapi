@@ -21,17 +21,18 @@ jest.unstable_mockModule('fdir', () => ({
     })
   }))
 }))
-jest.unstable_mockModule('fs-extra', () => ({
-  readJsonSync: jest.fn(),
-  writeJsonSync: jest.fn()
+jest.unstable_mockModule('jsonfile', () => ({
+  readFileSync: jest.fn(),
+  writeFileSync: jest.fn()
 }))
-jest.unstable_mockModule('replace-in-file', () => ({
-  replaceInFileSync: jest.fn()
+jest.unstable_mockModule('node:fs', () => ({
+  readFileSync: jest.fn(),
+  writeFileSync: jest.fn()
 }))
 
 const { default: prepare } = await import('../src/prepare.js')
-const { readJsonSync, writeJsonSync } = await import('fs-extra')
-const { replaceInFileSync } = await import('replace-in-file')
+const { readFileSync: readJsonSync, writeFileSync: writeJsonSync } = await import('jsonfile')
+const { readFileSync, writeFileSync } = await import('node:fs')
 
 const logger = {
   log: jest.fn(),
@@ -111,15 +112,8 @@ describe('prepare', () => {
 
   describe('openapi.yaml', () => {
     beforeEach(() => {
-      ;(replaceInFileSync as unknown as jest.Mock).mockReturnValue([
-        {
-          file: yamlFilePath,
-          hasChanged: true,
-          numMatches: 1,
-          numReplacements: 1
-        }
-      ])
-      ;(writeJsonSync as unknown as jest.Mock).mockReturnValue(true)
+      ;(readFileSync as unknown as jest.Mock).mockReturnValue('version: 1.2.2')
+      ;(writeFileSync as unknown as jest.Mock).mockReturnValue(undefined)
     })
 
     it('updates the version', async () => {
@@ -127,12 +121,10 @@ describe('prepare', () => {
 
       await prepare({ apiSpecFiles: [yamlFilePath] }, context)
 
-      expect(replaceInFileSync).toHaveBeenCalledTimes(1)
-      expect(replaceInFileSync).toHaveBeenCalledWith({
-        files: yamlFilePath,
-        from: /version: ?.+$/im,
-        to: 'version: 1.2.3'
-      })
+      expect(readFileSync).toHaveBeenCalledTimes(1)
+      expect(readFileSync).toHaveBeenCalledWith(yamlFilePath, 'utf8')
+      expect(writeFileSync).toHaveBeenCalledTimes(1)
+      expect(writeFileSync).toHaveBeenCalledWith(yamlFilePath, 'version: 1.2.3')
     })
   })
 })
