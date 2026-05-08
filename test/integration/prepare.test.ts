@@ -35,6 +35,26 @@ afterEach(() => {
   fs.rmSync(tmpDir, { recursive: true })
 })
 
+const itUpdatesTheVersionYaml = (fileName: string) => {
+  it('updates the version', async () => {
+    const filePath = path.join(tmpDir, fileName)
+    await prepare({ apiSpecFiles: [filePath] }, createContext('2.0.0'))
+    const content = fs.readFileSync(filePath, 'utf8')
+    expect(content).toContain('version: 2.0.0')
+    expect(content).not.toContain('version: 1.0.0')
+  })
+}
+
+const itDoesNotUpdateOtherFieldsYaml = (fileName: string) => {
+  it('does not alter other fields', async () => {
+    const filePath = path.join(tmpDir, fileName)
+    await prepare({ apiSpecFiles: [filePath] }, createContext('2.0.0'))
+    const content = fs.readFileSync(filePath, 'utf8')
+    expect(content).toContain('title: Test API')
+    expect(content).toContain("openapi: '3.0.0'")
+  })
+}
+
 describe('prepare', () => {
   describe('openapi.json', () => {
     it('updates the version', async () => {
@@ -54,39 +74,13 @@ describe('prepare', () => {
   })
 
   describe('openapi.yaml', () => {
-    it('updates the version', async () => {
-      const filePath = path.join(tmpDir, 'openapi.yaml')
-      await prepare({ apiSpecFiles: [filePath] }, createContext('2.0.0'))
-      const content = fs.readFileSync(filePath, 'utf8')
-      expect(content).toContain('version: 2.0.0')
-      expect(content).not.toContain('version: 1.0.0')
-    })
-
-    it('does not alter other fields', async () => {
-      const filePath = path.join(tmpDir, 'openapi.yaml')
-      await prepare({ apiSpecFiles: [filePath] }, createContext('2.0.0'))
-      const content = fs.readFileSync(filePath, 'utf8')
-      expect(content).toContain('title: Test API')
-      expect(content).toContain("openapi: '3.0.0'")
-    })
+    itUpdatesTheVersionYaml('openapi.yaml')
+    itDoesNotUpdateOtherFieldsYaml('openapi.yaml')
   })
 
   describe('openapi.yml', () => {
-    it('updates the version', async () => {
-      const filePath = path.join(tmpDir, 'openapi.yml')
-      await prepare({ apiSpecFiles: [filePath] }, createContext('2.0.0'))
-      const content = fs.readFileSync(filePath, 'utf8')
-      expect(content).toContain('version: 2.0.0')
-      expect(content).not.toContain('version: 1.0.0')
-    })
-
-    it('does not alter other fields', async () => {
-      const filePath = path.join(tmpDir, 'openapi.yml')
-      await prepare({ apiSpecFiles: [filePath] }, createContext('2.0.0'))
-      const content = fs.readFileSync(filePath, 'utf8')
-      expect(content).toContain('title: Test API')
-      expect(content).toContain("openapi: '3.0.0'")
-    })
+    itUpdatesTheVersionYaml('openapi.yml')
+    itDoesNotUpdateOtherFieldsYaml('openapi.yml')
   })
 
   describe('glob patterns', () => {
