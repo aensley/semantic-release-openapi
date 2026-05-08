@@ -1,5 +1,7 @@
 /**
  * Test verifyConditions
+ *
+ * @group unit
  */
 
 import { jest, describe, it, expect, beforeEach } from '@jest/globals'
@@ -20,6 +22,10 @@ describe('verifyConditions', () => {
   })
 
   describe('apiSpecFiles', () => {
+    it('resolves when valid files are provided', async () => {
+      await expect(verifyConditions({ apiSpecFiles: ['openapi.yaml'] })).resolves.toBeUndefined()
+    })
+
     it('errors if there are no paths provided', async () => {
       expect.assertions(1) // Fail if there is no error caught.
       try {

@@ -1,5 +1,6 @@
 import SemanticReleaseError from '@semantic-release/error'
 import { globSync } from 'glob'
+import { extname } from 'node:path'
 import PluginConfig from './@types/pluginConfig.js'
 
 /**
@@ -22,7 +23,7 @@ export default async ({ apiSpecFiles }: PluginConfig): Promise<any> => {
     if (fileNames.length > 0) {
       specFilesFound = true
       fileNames.forEach((fileName: string) => {
-        if (!expectedExts.includes(fileName.split('.').pop() ?? '')) {
+        if (!expectedExts.includes(extname(fileName).slice(1))) {
           throw new SemanticReleaseError(
             'File "' + fileName + '" is not valid. Must be a file with .json, .yaml, or .yml extension',
             'EINVALIDAPISPECFILETYPE'
