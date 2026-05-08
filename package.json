@@ -1,6 +1,6 @@
 {
   "name": "semantic-release-openapi",
-  "version": "2.0.1",
+  "version": "2.1.0",
   "description": "A Semantic Release plugin to update versions in OpenAPI / Swagger specification files",
   "repository": {
     "type": "git",
