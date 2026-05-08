@@ -1,6 +1,6 @@
 import SemanticReleaseError from '@semantic-release/error'
 import { globSync } from 'glob'
-import PluginConfig from './@types/pluginConfig'
+import PluginConfig from './@types/pluginConfig.js'
 
 /**
  * verifyConditions hook for semantic release
