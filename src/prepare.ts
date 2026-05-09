@@ -1,6 +1,6 @@
 import SemanticReleaseError from '@semantic-release/error'
-import { readJsonSync, writeJsonSync } from 'fs-extra'
-import { replaceInFileSync } from 'replace-in-file'
+import { readFileSync as readJsonSync, writeFileSync as writeJsonSync } from 'jsonfile'
+import { readFileSync, writeFileSync } from 'node:fs'
 import { PrepareContext } from 'semantic-release'
 import PluginConfig from './@types/pluginConfig.js'
 import { fdir } from 'fdir'
@@ -45,14 +45,10 @@ const prepareApiSpecFiles = (apiSpecFiles: string[], version: string, logger: Pr
  * @returns {string[]} A list of altered files
  */
 const prepareApiSpecFileYml = (apiSpecFile: string, version: string): string[] => {
-  const changedFiles = replaceInFileSync({
-    files: apiSpecFile,
-    from: /version: ?.+$/im,
-    to: 'version: ' + version
-  })
-    .filter((result) => result.hasChanged)
-    .map((result) => result.file)
-  return changedFiles
+  const content = readFileSync(apiSpecFile, 'utf8')
+  const newContent = content.replace(/version: ?.+$/im, 'version: ' + version)
+  writeFileSync(apiSpecFile, newContent)
+  return [apiSpecFile]
 }
 
 /**
