@@ -20,6 +20,7 @@
     "url": "https://andrewensley.com"
   },
   "type": "module",
+  "sideEffects": false,
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/aensley/semantic-release-openapi/issues/new?template=bug-report.yml"
@@ -29,7 +30,7 @@
     "https://paypal.me/AndrewEnsley"
   ],
   "homepage": "https://github.com/aensley/semantic-release-openapi#readme",
-  "main": "dist/index.js",
+  "exports": "./dist/index.js",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "source": "src/index.ts",
@@ -41,8 +42,12 @@
   ],
   "scripts": {
     "build": "tsc",
-    "lint": "ts-standard && prettier --check .",
-    "lint:fix": "prettier --write .",
+    "lint": "npm run lint:code && npm run lint:lockfile && npm run lint:engines && npm run lint:publint",
+    "lint:code": "ts-standard && prettier --check .",
+    "lint:code:fix": "prettier --write .",
+    "lint:lockfile": "lockfile-lint >/dev/null",
+    "lint:engines": "ls-engines --mode virtual >/dev/null",
+    "lint:publint": "publint --strict",
     "packito": "packito --no-publish",
     "pre-commit-msg": "echo Running pre-commit checks...",
     "pre-publish": "npm run build && npm run packito && cp README.md dist/ && cp LICENSE dist/",
@@ -61,7 +66,7 @@
     "colors": true
   },
   "engines": {
-    "node": ">=16"
+    "node": ">= 22.14"
   },
   "platform": "node",
   "dependencies": {
@@ -81,9 +86,12 @@
     "cz-conventional-changelog": "^3.3.0",
     "jest": "^30.4.1",
     "jest-runner-groups": "^2.2.0",
+    "lockfile-lint": "^5.0.0",
+    "ls-engines": "^0.10.0",
     "packito": "^0.5.0",
     "pre-commit": "^2.0.0",
     "prettier": "^3.8.3",
+    "publint": "^0.3.21",
     "ts-jest": "^29.4.9",
     "ts-standard": "^12.0.2",
     "typescript": "^6.0.3"
@@ -182,6 +190,22 @@
         "lines": 80
       }
     }
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "lockfile-lint": {
+    "path": "package-lock.json",
+    "type": "npm",
+    "validate-https": true,
+    "validate-host": true,
+    "validate-package-names": false,
+    "validate-scheme": true,
+    "validate-integrity": true,
+    "allowed-hosts": [
+      "npm"
+    ]
   },
   "config": {
     "commitizen": {

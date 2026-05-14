@@ -8,10 +8,11 @@
     "ts-standard": "*",
     "prettier": "*",
     "release": "*",
+    "lockfile-lint": "*",
     "config": "*"
   },
   "replace": {
-    "main": "index.js",
+    "exports": "./index.js",
     "module": "index.js",
     "types": "index.d.ts",
     "files": ["**/*"]
