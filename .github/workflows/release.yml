@@ -1,4 +1,4 @@
-name: Release
+name: release
 
 on: # Triggered by completed runs of the test workflow on the main branch
   workflow_run:

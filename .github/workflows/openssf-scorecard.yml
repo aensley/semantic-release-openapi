@@ -1,4 +1,4 @@
-name: OpenSSF-Scorecard
+name: openssf-scorecard
 on:
   schedule:
     - cron: '21 23 * * 4'
