@@ -1,14 +1,15 @@
 # semantic-release-openapi
 
-[![npm](https://img.shields.io/npm/v/semantic-release-openapi)][npm]
-[![license](https://img.shields.io/github/license/aensley/semantic-release-openapi.svg)](https://github.com/aensley/semantic-release-openapi/blob/main/LICENSE)
-[![sponsor](https://img.shields.io/badge/sponsor-4d4d4d?logo=github&logoColor=white)](https://github.com/sponsors/aensley)
-[![install size](https://packagephobia.com/badge?p=semantic-release-openapi)](https://packagephobia.com/result?p=semantic-release-openapi)
-[![npm downloads](https://img.shields.io/npm/dw/semantic-release-openapi)][npm]<br>
+[![npm](https://img.shields.io/npm/v/semantic-release-openapi.svg)][npm]
 [![npm types](https://badgen.net/npm/types/semantic-release-openapi?icon=typescript)][npm]
-[![ci](https://github.com/aensley/semantic-release-openapi/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/aensley/semantic-release-openapi/actions/workflows/ci.yml)
+[![license](https://img.shields.io/github/license/aensley/semantic-release-openapi.svg)](https://github.com/aensley/semantic-release-openapi/blob/main/LICENSE)
+[![prettier](https://img.shields.io/badge/prettier-ff69b4.svg?&logo=prettier&logoColor=000)](https://prettier.io/)
+![standard](https://img.shields.io/badge/standard-f3df49.svg?logo=standardjs&logoColor=000)
+[![bundle size](https://img.shields.io/bundlephobia/min/semantic-release-openapi?label=size)](https://bundlephobia.com/package/semantic-release-openapi)<br>
 [![Maintainability](https://qlty.sh/gh/aensley/projects/semantic-release-openapi/maintainability.svg)][qltysh]
 [![Test Coverage](https://qlty.sh/gh/aensley/projects/semantic-release-openapi/coverage.svg)][qltysh]
+[![ci](https://github.com/aensley/semantic-release-openapi/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/aensley/semantic-release-openapi/actions/workflows/ci.yml)
+[![npm downloads](https://img.shields.io/npm/dw/semantic-release-openapi.svg)][npm]
 
 A Semantic Release plugin to update versions in OpenAPI / Swagger specification files.
 
