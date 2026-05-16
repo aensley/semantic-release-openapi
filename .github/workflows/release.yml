@@ -1,9 +1,9 @@
 name: release
 
-on: # Triggered by completed runs of the ci workflow on the main branch
+on: # Triggered by completed runs of the test workflow on the main branch
   workflow_run:
     workflows:
-      - 'ci'
+      - 'test'
     branches:
       - main
     types:
@@ -21,7 +21,7 @@ jobs:
       id-token: write # to enable use of OIDC for npm provenance
     strategy:
       matrix:
-        node-version: [24]
+        node-version: [26]
     steps:
       - uses: actions/checkout@v6
         with:
