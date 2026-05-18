@@ -7,13 +7,14 @@
 [![standard](https://img.shields.io/badge/standard-f3df49.svg?logo=standardjs&logoColor=000)](https://standardjs.com/)
 [![bundle size](https://img.shields.io/bundlephobia/min/semantic-release-openapi.svg?label=size)](https://bundlephobia.com/package/semantic-release-openapi)
 [![npm downloads](https://img.shields.io/npm/dw/semantic-release-openapi.svg)][npm]
-[![dependencies](https://img.shields.io/librariesio/release/npm/semantic-release-openapi)](https://libraries.io/npm/semantic-release-openapi)<br>
+[![Dependabot badge](https://badgen.net/github/dependabot/aensley/semantic-release-openapi?icon=dependabot)](https://github.com/aensley/semantic-release-openapi/security/dependabot)<br>
 [![Maintainability](https://qlty.sh/gh/aensley/projects/semantic-release-openapi/maintainability.svg)][qltysh]
 [![Test Coverage](https://qlty.sh/gh/aensley/projects/semantic-release-openapi/coverage.svg)][qltysh]
 [![test](https://github.com/aensley/semantic-release-openapi/actions/workflows/test.yml/badge.svg?branch=main)](https://github.com/aensley/semantic-release-openapi/actions/workflows/test.yml)
-[![OpenSSF Scorecard](https://img.shields.io/ossf-scorecard/github.com/aensley/semantic-release-openapi.svg?label=ossf%20score)](https://scorecard.dev/viewer/?uri=github.com/aensley/semantic-release-openapi)
+[![OpenSSF Scorecard](https://img.shields.io/ossf-scorecard/github.com/aensley/semantic-release-openapi.svg?label=ossf)](https://scorecard.dev/viewer/?uri=github.com/aensley/semantic-release-openapi)
 [![Socket](https://socket.dev/api/badge/npm/package/semantic-release-openapi)](https://socket.dev/npm/package/semantic-release-openapi)
 [![snyk](https://snyk.io/test/npm/semantic-release-openapi/badge.svg)](https://security.snyk.io/package/npm/semantic-release-openapi)
+[![dependencies](https://img.shields.io/librariesio/release/npm/semantic-release-openapi.svg?label=deps)](https://libraries.io/npm/semantic-release-openapi)
 
 A Semantic Release plugin to update versions in OpenAPI / Swagger specification files.
 
