@@ -32,7 +32,9 @@ jobs:
           node-version: ${{ matrix.node-version }}
           registry-url: 'https://registry.npmjs.org'
       - name: Install dependencies
-        run: npm ci
+        # Don't run post-install scripts which set the pre-commit hooks
+        # pre-commit hooks run npm test, which is already run by pre-publish below
+        run: npm ci --ignore-scripts
       - name: Pre-Publish (Build, Test, Packito)
         run: npm run pre-publish
       - name: Release
