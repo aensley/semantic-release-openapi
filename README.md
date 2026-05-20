@@ -1,12 +1,12 @@
 # semantic-release-openapi
 
-[![npm](https://img.shields.io/npm/v/semantic-release-openapi.svg)][npm]
+[![npm](https://img.shields.io/npm/v/semantic-release-openapi.svg?logo=npm)][npm]
 [![npm types](https://badgen.net/npm/types/semantic-release-openapi?icon=typescript)][npm]
 [![license](https://img.shields.io/github/license/aensley/semantic-release-openapi.svg)](https://github.com/aensley/semantic-release-openapi/blob/main/LICENSE)
 [![prettier](https://img.shields.io/badge/prettier-ff69b4.svg?&logo=prettier&logoColor=fff)](https://prettier.io/)
 [![standard](https://img.shields.io/badge/standard-f3df49.svg?logo=standardjs&logoColor=000)](https://standardjs.com/)
-[![bundle size](https://img.shields.io/bundlephobia/min/semantic-release-openapi.svg?label=size)](https://bundlephobia.com/package/semantic-release-openapi)
-[![npm downloads](https://img.shields.io/npm/dw/semantic-release-openapi.svg)][npm]<br>
+[![npm downloads](https://img.shields.io/npm/dw/semantic-release-openapi.svg)][npm]
+[![dependencies](https://img.shields.io/librariesio/release/npm/semantic-release-openapi.svg?label=deps&logo=npm)](https://libraries.io/npm/semantic-release-openapi)<br>
 [![Maintainability](https://qlty.sh/gh/aensley/projects/semantic-release-openapi/maintainability.svg)][qltysh]
 [![Test Coverage](https://qlty.sh/gh/aensley/projects/semantic-release-openapi/coverage.svg)][qltysh]
 [![test](https://github.com/aensley/semantic-release-openapi/actions/workflows/test.yml/badge.svg?branch=main)](https://github.com/aensley/semantic-release-openapi/actions/workflows/test.yml)
@@ -33,7 +33,7 @@ npm install --save-dev semantic-release-openapi
 
 Configure the plugin wherever you have your [semantic-release configuration](https://github.com/semantic-release/semantic-release/blob/master/docs/usage/configuration.md#configuration).
 
-### Plugin Config
+## Configuration
 
 This plugin has one configuration option which **must be supplied**.
 
@@ -41,10 +41,9 @@ This plugin has one configuration option which **must be supplied**.
 | ------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **`apiSpecFiles`** | An array of OpenAPI / Swagger specification file paths.<br>[Glob patterns](https://www.gnu.org/software/bash/manual/bash.html#Pattern-Matching) (e.g. `'*.yaml'`) are supported.<br><br>_All matching files must have a `.json`, `.yaml`, or `.yml` extension._ |
 
-### Committing Changes
-
-> [!Important]
-> Semantic Release will not commit changes to your OpenAPI spec files unless you add the same files in `assets` for the **@semantic-release/git** plugin! See the examples below.
+> [!TIP]
+>
+> Semantic Release will not commit changes to your OpenAPI spec files unless you add the same files in `assets` for the **@semantic-release/git** plugin. See the examples below.
 
 ## Examples
 
@@ -73,7 +72,7 @@ The following examples assume you've put your `semantic-release` configuration i
 }
 ```
 
-### Full Example
+### Extended Example
 
 ```json
 {
