@@ -9,6 +9,9 @@ on: # Triggered by completed runs of the test workflow on the main branch
     types:
       - completed
 
+permissions:
+  id-token: write  # Required for OIDC / NPM Trusted Publishing
+
 jobs:
   release:
     name: Release
@@ -31,6 +34,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           registry-url: 'https://registry.npmjs.org'
+          package-manager-cache: false # never use caching in release builds
       - name: Install dependencies
         # Don't run post-install scripts which set the pre-commit hooks
         # pre-commit hooks run npm test, which is already run by pre-publish below
@@ -41,6 +45,4 @@ jobs:
         run: npx semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           NPM_CONFIG_PROVENANCE: true
