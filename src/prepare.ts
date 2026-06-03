@@ -1,8 +1,8 @@
 import SemanticReleaseError from '@semantic-release/error'
 import { readFileSync as readJsonSync, writeFileSync as writeJsonSync } from 'jsonfile'
 import { readFileSync, writeFileSync } from 'node:fs'
-import { PrepareContext } from 'semantic-release'
-import PluginConfig from './@types/pluginConfig.js'
+import type { PrepareContext } from 'semantic-release'
+import type PluginConfig from './@types/pluginConfig.js'
 import { fdir } from 'fdir'
 
 /**
