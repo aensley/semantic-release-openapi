@@ -3,8 +3,7 @@
 [![npm](https://img.shields.io/npm/v/semantic-release-openapi.svg?logo=npm)][npm]
 [![npm types](https://badgen.net/npm/types/semantic-release-openapi?icon=typescript)][npm]
 [![license](https://img.shields.io/github/license/aensley/semantic-release-openapi.svg)](https://github.com/aensley/semantic-release-openapi/blob/main/LICENSE)
-[![prettier](https://img.shields.io/badge/prettier-ff69b4.svg?&logo=prettier&logoColor=fff)](https://prettier.io/)
-[![standard](https://img.shields.io/badge/standard-f3df49.svg?logo=standardjs&logoColor=000)](https://standardjs.com/)
+[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?logo=prettier)](https://prettier.io)
 [![npm downloads](https://img.shields.io/npm/dw/semantic-release-openapi.svg)][npm]
 [![dependencies](https://img.shields.io/librariesio/release/npm/semantic-release-openapi.svg?label=deps&logo=npm)](https://libraries.io/npm/semantic-release-openapi)<br>
 [![Maintainability](https://qlty.sh/gh/aensley/projects/semantic-release-openapi/maintainability.svg)][qltysh]

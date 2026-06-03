@@ -52,16 +52,15 @@
   ],
   "scripts": {
     "build": "tsc",
-    "lint": "npm run lint:code && npm run lint:lockfile && npm run lint:engines && npm run lint:publint",
-    "lint:code": "ts-standard && prettier --check .",
+    "lint": "npm run lint:code && npm run lint:lockfile && npm run lint:publint",
+    "lint:code": "prettier --check .",
     "lint:code:fix": "prettier --write .",
     "lint:lockfile": "lockfile-lint >/dev/null",
-    "lint:engines": "ls-engines --mode virtual >/dev/null",
+    "lint:engines": "npx ls-engines --mode virtual",
     "lint:publint": "publint --strict",
     "packito": "packito --no-publish",
     "pre-commit-msg": "echo Running pre-commit checks...",
     "pre-publish": "npm run build && npm run packito && cp README.md dist/ && cp LICENSE dist/",
-    "setup": "npm install && npm run prepare-hook",
     "test": "npm run lint && NODE_OPTIONS=--experimental-vm-modules jest --coverage --verbose",
     "test:unit": "JEST_GROUP=unit NODE_OPTIONS=--experimental-vm-modules node test/scripts/jest-group.mjs --verbose",
     "test:integration": "JEST_GROUP=integration NODE_OPTIONS=--experimental-vm-modules node test/scripts/jest-group.mjs --verbose",
@@ -92,26 +91,20 @@
     "@types/picomatch": "^4.0.3",
     "@types/semantic-release__error": "^3.0.3",
     "@types/signale": "^1.4.7",
-    "commitizen": "^4.3.1",
-    "cz-conventional-changelog": "^3.3.0",
+    "czg": "^1.13.1",
     "jest": "^30.4.2",
     "jest-runner-groups": "^2.2.0",
+    "jiti": "^2.7.0",
     "lockfile-lint": "^5.0.0",
-    "ls-engines": "^0.10.0",
     "packito": "^0.5.0",
     "pre-commit": "^2.0.0",
     "prettier": "^3.8.3",
     "publint": "^0.3.21",
     "ts-jest": "^29.4.11",
-    "ts-standard": "^12.0.2",
     "typescript": "^6.0.3"
   },
   "peerDependencies": {
     "semantic-release": ">=20.0.0"
-  },
-  "overrides": {
-    "lodash": "^4.18.1",
-    "tmp": "^0.2.4"
   },
   "release": {
     "branches": [
@@ -143,18 +136,6 @@
           ]
         }
       ]
-    ]
-  },
-  "eslintConfig": {
-    "extends": "standard-with-typescript",
-    "parserOptions": {
-      "project": "./tsconfig.json"
-    }
-  },
-  "ts-standard": {
-    "globals": [],
-    "ignore": [
-      "/test/**/*.ts"
     ]
   },
   "prettier": {
@@ -223,7 +204,9 @@
   },
   "config": {
     "commitizen": {
-      "path": "./node_modules/cz-conventional-changelog"
+      "path": "node_modules/cz-git",
+      "type": "conventional",
+      "useEmoji": true
     }
   }
 }

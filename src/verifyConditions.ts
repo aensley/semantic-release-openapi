@@ -1,7 +1,7 @@
 import SemanticReleaseError from '@semantic-release/error'
 import { fdir } from 'fdir'
 import { extname } from 'node:path'
-import PluginConfig from './@types/pluginConfig.js'
+import type PluginConfig from './@types/pluginConfig.js'
 
 /**
  * verifyConditions hook for semantic release

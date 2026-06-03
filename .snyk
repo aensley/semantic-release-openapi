@@ -2,11 +2,26 @@
 # ignores vulnerabilities until expiry date; change duration by modifying expiry date
 version: v1.25.1
 ignore:
-  SNYK-JS-BRACEEXPANSION-16755174:
+  SNYK-JS-INFLIGHT-6095116:
     - '*':
         reason: >-
-          Bundled inside npm@11.14.1 (devDep via @semantic-release/npm); cannot
-          override bundled deps. Revisit when npm ships brace-expansion>=5.0.6.
+          Unmaintained package with no fix available; dev-only dep introduced
+          through jest > glob@7 > inflight. Local attack vector only.
+          Revisit if jest drops glob@7 / test-exclude drops inflight.
         expires: 2026-09-01T00:00:00.000Z
-        created: 2026-05-20T15:56:50.725Z
+        created: 2026-06-03T00:00:00.000Z
+  SNYK-JS-PACOTE-8225084:
+    - '*':
+        reason: >-
+          Bundled inside npm@11.16.0 (devDep via @semantic-release/npm); cannot
+          override bundled deps. Revisit when npm ships a fixed pacote version.
+        expires: 2026-09-01T00:00:00.000Z
+        created: 2026-06-03T00:00:00.000Z
+  SNYK-JS-POSTCSSSELECTORPARSER-16873882:
+    - '*':
+        reason: >-
+          Bundled inside npm@11.16.0 (devDep via @semantic-release/npm); cannot
+          override bundled deps. Revisit when npm ships a fixed postcss-selector-parser version.
+        expires: 2026-09-01T00:00:00.000Z
+        created: 2026-06-03T00:00:00.000Z
 patch: {}

@@ -32,9 +32,6 @@
   "javascript.validate.enable": false,
   "javascript.format.enable": false,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "standard.enableGlobally": true,
-  "standard.autoFixOnSave": true,
-  "standard.usePackageJson": true,
   "html.format.endWithNewline": true,
   "files.insertFinalNewline": true,
   "files.trimFinalNewlines": true,
@@ -51,7 +48,6 @@
   "[xml]": {
     "editor.defaultFormatter": "DotJoshJohnson.xml"
   },
-  "standard.enable": false,
   "[shellscript]": {
     "editor.defaultFormatter": "foxundermoon.shell-format"
   }
