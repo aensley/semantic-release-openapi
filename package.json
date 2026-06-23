@@ -106,6 +106,10 @@
   "peerDependencies": {
     "semantic-release": ">=20.0.0"
   },
+  "overrides": {
+    "js-yaml": "^4.2.0",
+    "undici": "^6.27.0"
+  },
   "release": {
     "branches": [
       "main"
