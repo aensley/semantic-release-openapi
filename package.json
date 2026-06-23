@@ -87,7 +87,7 @@
     "@semantic-release/git": "^10.0.1",
     "@types/jest": "^30.0.0",
     "@types/jsonfile": "^6.1.4",
-    "@types/node": "^25.9.1",
+    "@types/node": "^26.0.0",
     "@types/picomatch": "^4.0.3",
     "@types/semantic-release__error": "^3.0.3",
     "@types/signale": "^1.4.7",
@@ -98,7 +98,7 @@
     "lockfile-lint": "^5.0.0",
     "packito": "^0.5.0",
     "pre-commit": "^2.0.0",
-    "prettier": "^3.8.3",
+    "prettier": "^3.8.4",
     "publint": "^0.3.21",
     "ts-jest": "^29.4.11",
     "typescript": "^6.0.3"
