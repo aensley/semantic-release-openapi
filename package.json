@@ -84,10 +84,10 @@
     "jsonfile": "^6.2.1"
   },
   "devDependencies": {
-    "@semantic-release/git": "^10.0.1",
+    "@semantic-release/git": "^11.0.1",
     "@types/jest": "^30.0.0",
     "@types/jsonfile": "^6.1.4",
-    "@types/node": "^26.0.0",
+    "@types/node": "^26.1.2",
     "@types/picomatch": "^4.0.3",
     "@types/semantic-release__error": "^3.0.3",
     "@types/signale": "^1.4.7",
@@ -98,17 +98,16 @@
     "lockfile-lint": "^5.0.0",
     "packito": "^0.5.0",
     "pre-commit": "^2.0.0",
-    "prettier": "^3.8.4",
-    "publint": "^0.3.21",
-    "ts-jest": "^29.4.11",
+    "prettier": "^3.9.6",
+    "publint": "^0.3.22",
+    "ts-jest": "^29.4.12",
     "typescript": "^6.0.3"
   },
   "peerDependencies": {
     "semantic-release": ">=20.0.0"
   },
   "overrides": {
-    "js-yaml": "^4.2.0",
-    "undici": "^6.27.0"
+    "js-yaml": "^4.2.0"
   },
   "release": {
     "branches": [
