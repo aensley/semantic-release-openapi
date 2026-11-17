@@ -9,7 +9,6 @@
 [![Maintainability](https://qlty.sh/gh/aensley/projects/semantic-release-openapi/maintainability.svg)][qltysh]
 [![Test Coverage](https://qlty.sh/gh/aensley/projects/semantic-release-openapi/coverage.svg)][qltysh]
 [![test](https://github.com/aensley/semantic-release-openapi/actions/workflows/test.yml/badge.svg?branch=main)](https://github.com/aensley/semantic-release-openapi/actions/workflows/test.yml)
-[![OpenSSF Scorecard](https://img.shields.io/ossf-scorecard/github.com/aensley/semantic-release-openapi.svg?label=ossf)](https://scorecard.dev/viewer/?uri=github.com/aensley/semantic-release-openapi)
 [![Socket](https://socket.dev/api/badge/npm/package/semantic-release-openapi)](https://socket.dev/npm/package/semantic-release-openapi)
 [![snyk](https://snyk.io/test/npm/semantic-release-openapi/badge.svg)](https://security.snyk.io/package/npm/semantic-release-openapi)
 

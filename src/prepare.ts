@@ -4,6 +4,7 @@ import { readFileSync, writeFileSync } from 'node:fs'
 import type { PrepareContext } from 'semantic-release'
 import type PluginConfig from './@types/pluginConfig.js'
 import { fdir } from 'fdir'
+import { isScalar, parseDocument, Scalar } from 'yaml'
 
 /**
  * Prepare the API Spec files
@@ -46,7 +47,21 @@ const prepareApiSpecFiles = (apiSpecFiles: string[], version: string, logger: Pr
  */
 const prepareApiSpecFileYml = (apiSpecFile: string, version: string): string[] => {
   const content = readFileSync(apiSpecFile, 'utf8')
-  const newContent = content.replace(/version: ?.+$/im, 'version: ' + version)
+  const doc = parseDocument(content)
+  if (doc.errors.length > 0) {
+    throw new Error(`Could not parse ${apiSpecFile}: ${doc.errors[0].message}`)
+  }
+
+  const node = doc.getIn(['info', 'version'], true)
+  if (!isScalar(node) || node.range == null) {
+    throw new Error(`No info.version field found in ${apiSpecFile}`)
+  }
+
+  // Splice the new value into the original source at the node's exact offsets
+  // so comments, quoting, and all other formatting are preserved byte-for-byte.
+  const [start, valueEnd] = node.range
+  const quote = node.type === Scalar.QUOTE_DOUBLE ? '"' : node.type === Scalar.QUOTE_SINGLE ? "'" : ''
+  const newContent = content.slice(0, start) + quote + version + quote + content.slice(valueEnd)
   writeFileSync(apiSpecFile, newContent)
   return [apiSpecFile]
 }

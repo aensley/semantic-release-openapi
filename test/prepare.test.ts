@@ -112,7 +112,7 @@ describe('prepare', () => {
 
   describe('openapi.yaml', () => {
     beforeEach(() => {
-      ;(readFileSync as unknown as jest.Mock).mockReturnValue('version: 1.2.2')
+      ;(readFileSync as unknown as jest.Mock).mockReturnValue('info:\n  version: 1.2.2\n')
       ;(writeFileSync as unknown as jest.Mock).mockReturnValue(undefined)
     })
 
@@ -124,7 +124,81 @@ describe('prepare', () => {
       expect(readFileSync).toHaveBeenCalledTimes(1)
       expect(readFileSync).toHaveBeenCalledWith(yamlFilePath, 'utf8')
       expect(writeFileSync).toHaveBeenCalledTimes(1)
-      expect(writeFileSync).toHaveBeenCalledWith(yamlFilePath, 'version: 1.2.3')
+      expect(writeFileSync).toHaveBeenCalledWith(yamlFilePath, 'info:\n  version: 1.2.3\n')
+    })
+
+    const expectYamlTransform = async (input: string, expected: string) => {
+      ;(readFileSync as unknown as jest.Mock).mockReturnValue(input)
+      await prepare({ apiSpecFiles: [yamlFilePath] }, createContext({ version: '1.3.0' }))
+      expect(writeFileSync).toHaveBeenCalledWith(yamlFilePath, expected)
+    }
+
+    it('ignores "version:" inside comments', async () => {
+      await expectYamlTransform(
+        '# Generated from api.proto, schema version: 3\nopenapi: 3.0.3\ninfo:\n  title: Demo API\n  version: 1.2.3\npaths: {}\n',
+        '# Generated from api.proto, schema version: 3\nopenapi: 3.0.3\ninfo:\n  title: Demo API\n  version: 1.3.0\npaths: {}\n'
+      )
+    })
+
+    it('ignores "version:" inside string values', async () => {
+      await expectYamlTransform(
+        'openapi: 3.0.3\ninfo:\n  title: Demo API\n  description: "Requires client version: 2 or later."\n  version: 1.2.3\npaths: {}\n',
+        'openapi: 3.0.3\ninfo:\n  title: Demo API\n  description: "Requires client version: 2 or later."\n  version: 1.3.0\npaths: {}\n'
+      )
+    })
+
+    it('ignores other "version" keys that appear before info', async () => {
+      await expectYamlTransform(
+        'x-meta:\n  version: 9\nx-api-version: 4\ninfo:\n  version: 1.2.3\n',
+        'x-meta:\n  version: 9\nx-api-version: 4\ninfo:\n  version: 1.3.0\n'
+      )
+    })
+
+    it('preserves double quotes', async () => {
+      await expectYamlTransform('info:\n  version: "1.2.3"\n', 'info:\n  version: "1.3.0"\n')
+    })
+
+    it('preserves single quotes', async () => {
+      await expectYamlTransform("info:\n  version: '1.2.3'\n", "info:\n  version: '1.3.0'\n")
+    })
+
+    it('preserves trailing comments on the version line', async () => {
+      await expectYamlTransform('info:\n  version: 1.2.3 # managed\n', 'info:\n  version: 1.3.0 # managed\n')
+    })
+
+    it('supports flow-style info mappings', async () => {
+      await expectYamlTransform('info: { title: X, version: 1.2.3 }\n', 'info: { title: X, version: 1.3.0 }\n')
+    })
+
+    it('preserves CRLF line endings', async () => {
+      await expectYamlTransform(
+        'openapi: 3.0.3\r\ninfo:\r\n  version: 1.2.3\r\n',
+        'openapi: 3.0.3\r\ninfo:\r\n  version: 1.3.0\r\n'
+      )
+    })
+
+    it('errors if info.version is missing', async () => {
+      ;(readFileSync as unknown as jest.Mock).mockReturnValue('openapi: 3.0.3\ninfo:\n  title: Demo API\n')
+      expect.assertions(3)
+      try {
+        await prepare({ apiSpecFiles: [yamlFilePath] }, createContext())
+      } catch (e) {
+        expect(e).toBeInstanceOf(SemanticReleaseError)
+        expect(String((e as SemanticReleaseError).message)).toContain('No info.version field found')
+      }
+      expect(writeFileSync).not.toHaveBeenCalled()
+    })
+
+    it('errors if the YAML is invalid', async () => {
+      ;(readFileSync as unknown as jest.Mock).mockReturnValue('info:\n  description: "unterminated\n  version: 1.2.3\n')
+      expect.assertions(3)
+      try {
+        await prepare({ apiSpecFiles: [yamlFilePath] }, createContext())
+      } catch (e) {
+        expect(e).toBeInstanceOf(SemanticReleaseError)
+        expect(String((e as SemanticReleaseError).message)).toContain('Could not parse')
+      }
+      expect(writeFileSync).not.toHaveBeenCalled()
     })
   })
 })
