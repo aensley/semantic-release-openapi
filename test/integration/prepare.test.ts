@@ -86,6 +86,26 @@ describe('prepare', () => {
     itDoesNotUpdateOtherFieldsYaml('openapi.yml')
   })
 
+  describe('yaml with other "version:" text', () => {
+    it('only updates info.version', async () => {
+      const case1 =
+        '# Generated from api.proto, schema version: 3\nopenapi: 3.0.3\ninfo:\n  title: Demo API\n  version: 1.2.3\npaths: {}\n'
+      const case2 =
+        'openapi: 3.0.3\ninfo:\n  title: Demo API\n  description: "Requires client version: 2 or later."\n  version: 1.2.3\npaths: {}\n'
+      fs.writeFileSync(path.join(tmpDir, 'case1.yaml'), case1)
+      fs.writeFileSync(path.join(tmpDir, 'case2.yaml'), case2)
+
+      await prepare({ apiSpecFiles: [relPath('case1.yaml'), relPath('case2.yaml')] }, createContext('1.3.0'))
+
+      expect(fs.readFileSync(path.join(tmpDir, 'case1.yaml'), 'utf8')).toBe(
+        case1.replace('version: 1.2.3', 'version: 1.3.0')
+      )
+      expect(fs.readFileSync(path.join(tmpDir, 'case2.yaml'), 'utf8')).toBe(
+        case2.replace('version: 1.2.3', 'version: 1.3.0')
+      )
+    })
+  })
+
   describe('glob patterns', () => {
     it('updates all matched files', async () => {
       const relDir = path.relative(process.cwd(), tmpDir)
